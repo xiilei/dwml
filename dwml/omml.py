@@ -12,7 +12,7 @@ OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
 def load(stream):
 	tree = ET.parse(ET)
-	for omath in tree.findall(OMML_NS+'oMath')
+	for omath in tree.findall(OMML_NS+'oMath'):
 		yield oMath(omath)
 
 

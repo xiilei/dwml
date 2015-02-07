@@ -12,7 +12,7 @@ class TestTurnML(unittest.TestCase):
 		"""
 		simple.ml acc element to latex 
 		"""
-		tree = omml.ET.parse(PROJECT_ROOT+'/tests/simple.ml')
+		tree = omml.ET.parse(PROJECT_ROOT+'/tests/simple.xml')
 		for omath in tree.findall(omml.OMML_NS+'oMath'):
 			for elm in omath:
 				if elm.tag == (omml.OMML_NS+'acc'):
