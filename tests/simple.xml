@@ -12,6 +12,16 @@
 				</m:r>
 			</m:e>
 		</m:acc>
+		<m:bar>
+			<m:barPr>
+				<m:pos m:val="top"/>
+			</m:barPr>
+			<m:e>
+				<m:r>
+					<m:t>cdef</m:t>
+				</m:r>
+			</m:e>
+		</m:bar>
 	</m:oMath>
 	<m:oMath>
 		<m:r>
