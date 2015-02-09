@@ -22,6 +22,18 @@
 				</m:r>
 			</m:e>
 		</m:bar>
+		<m:sSub>
+			<m:e>
+				<m:r>
+					<m:t>x</m:t>
+				</m:r>
+			</m:e>
+			<m:sub>
+				<m:r>
+					<m:t>n</m:t>
+				</m:r>
+			</m:sub>
+		</m:sSub>
 	</m:oMath>
 	<m:oMath>
 		<m:r>

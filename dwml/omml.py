@@ -80,6 +80,29 @@ class oMath2Latex(object):
 		"""
 		pass
 
+	def do_s_sub(self,elm):
+		"""
+		process the subscript object
+		"""
+		e_elm = elm.find('./{0}e'.format(OMML_NS))
+		text_base = self.do_e(e_elm)
+		sub_elm = elm.find('./{0}sub'.format(OMML_NS))
+		text_sub = self.do_sub(sub_elm)
+		return text_base+text_sub		
+
+	def do_s_sup(self,elm):
+		pass
+
+	def do_sub(self,elm):
+		run_elm = elm.find('./{0}r'.format(OMML_NS))
+		text = self.do_r(run_elm)
+		return '^{%s}' % text
+
+	def do_sup(self,elm):
+		run_elm = elm.find('./{0}r'.format(OMML_NS))
+		text = self.do_r(run_elm)
+		return '_{%s}' % text
+
 	def do_e(self,elm):
 		run_elm = elm.find('./{0}r'.format(OMML_NS))
 		return self.do_r(run_elm)
@@ -96,7 +119,8 @@ class oMath2Latex(object):
 		'acc' : do_acc,
 		'e' : do_e,
 		'r' : do_r,
-		'bar':do_bar,
+		'bar' : do_bar,
+		'sSub' : do_s_sub,
 	}
 
 

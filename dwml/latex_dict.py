@@ -54,7 +54,7 @@ CHR_DEFAULT = {
 }
 
 POS = {
-	'top' : r'\overline',
+	'top' : r'\overline', # not sure
 	'bot' : r'\underline',
 }
 
