@@ -6,7 +6,7 @@ Office Math Markup Language (OMML)
 
 import xml.etree.ElementTree as ET
 
-from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,T
+from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,T,FUNC
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -15,11 +15,15 @@ def load(stream):
 	for omath in tree.findall(OMML_NS+'oMath'):
 		yield oMath2Latex(omath)
 
+class NotSupport(Exception):
+	pass
+
 
 class oMath2Latex(object):
 	"""
 
 	"""
+	_t_dict = T
 
 	def __init__(self,element):
 		self._latex = self.process_children(element)
@@ -28,14 +32,20 @@ class oMath2Latex(object):
 	def __str__(self):
 		return self._latex
 
-	def process_children(self,elm):
+	def process_children(self,elm,t_dict=None):
 		latex_chars = list()
+		t_dict_back = self._t_dict	
+		if t_dict:
+			self._t_dict = t_dict
+
 		getmetod = self.tag2meth.get
 		for elm in list(elm):
 			s_tag = elm.tag.replace(OMML_NS,'')
 			meth = getmetod(s_tag)
 			if meth :
 				latex_chars.append(meth(self,elm))
+
+		self._t_dict = t_dict_back
 		return ''.join(latex_chars)
 
 	def get_latex(self):
@@ -127,19 +137,38 @@ class oMath2Latex(object):
 
 	def do_num(self,elm):
 		"""
+		the numerator
 		"""
 		return self.process_children(elm)
 
 	def do_den(self,elm):
 		"""
+		the denominator
 		"""
 		return self.process_children(elm)
 
 
 	def do_func(self,elm):
 		"""
+		process the Function-Apply object (Examples:sin cos)
 		"""
-		pass
+		fname_elm = elm.find('./{0}fName'.format(OMML_NS))
+		latax_name = self.do_f_name(fname_elm)
+		e_elm = elm.find('./{0}e'.format(OMML_NS))
+		text = self.do_e(e_elm)
+		return latax_name.format(text)
+
+	def do_f_name(self,elm):
+		"""
+		the func name
+		"""
+		nr_elm = elm.find('./{0}r'.format(OMML_NS))
+		name = self.do_r(nr_elm)
+		if FUNC.get(name):
+			return FUNC[name]
+		else :
+			raise NotSupport("Not support func %s" % name)
+
 
 	def do_e(self,elm):
 		"""
@@ -153,7 +182,7 @@ class oMath2Latex(object):
 		"""
 		_str = []
 		for s in elm.findtext('./{0}t'.format(OMML_NS)):
-			latex_s = T.get(s)
+			latex_s = self._t_dict.get(s)
 			_str.append(latex_s if latex_s else s)
 		return ''.join(_str)
 
@@ -175,6 +204,8 @@ class oMath2Latex(object):
 		'f'   : do_f,
 		'num' : do_num,
 		'den' : do_den,
+		'func': do_func,
+		'fName' : do_f_name,
  	}
 
 

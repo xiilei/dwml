@@ -50,6 +50,7 @@ CHR = {
 }
 
 T = {
+
 	'\u2192' : r'\rightarrow',
 	#Greek letters
 	'\U0001D6FC' : r'\alpha',
@@ -84,6 +85,22 @@ T = {
 	'\U0001D719' : r'\varphi',
 	'\U0001D71A' : r'\varrho',
 	'\U0001D71B' : r'\varpi', 
+}
+
+FUNC ={
+	'sin' : r'\sin({0})',
+	'cos' : r'\cos({0})',
+	'tan' : r'\tan({0})',
+	'arcsin' : r'\arcsin({0})',
+	'arccos' : r'\arccos({0})',
+	'arctan' : r'\arctan({0})',
+	'arccot' : r'\arccot({0})',
+	'sinh' : r'\sinh({0})',
+	'cosh' : r'\cosh({0})',
+	'tanh' : r'\tanh({0})',
+	'coth' : r'\coth({0})',
+	'sec'  : r'\sec({0})',
+	'csc'  : r'\csc({0})',
 }
 
 CHR_DEFAULT = {
