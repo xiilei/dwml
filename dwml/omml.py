@@ -6,7 +6,7 @@ Office Math Markup Language (OMML)
 
 import xml.etree.ElementTree as ET
 
-from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP
+from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -27,7 +27,7 @@ class oMath2Latex(object):
 
 	def __str__(self):
 		return self._latex
-	
+
 	def process_children(self,elm):
 		latex_chars = list()
 		getmetod = self.tag2meth.get
@@ -54,7 +54,7 @@ class oMath2Latex(object):
 			char_val = chr_elm.get('{0}val'.format(OMML_NS))			
 			latex_func = self.get_latex(char_val,store=CHR,default=default_val)
 		text = self.do_e(elm.find('./{0}e'.format(OMML_NS)))
-		return '%s{%s}'  % (latex_func,text)
+		return latex_func.format(text)
 
 	def do_bar(self,elm):
 		"""
@@ -69,7 +69,7 @@ class oMath2Latex(object):
 			char_val = pos_elm.get('{0}val'.format(OMML_NS))			
 			latex_func = self.get_latex(char_val,store=POS,default=default_val)
 		text = self.do_e(elm.find('./{0}e'.format(OMML_NS)))
-		return '%s{%s}'  % (latex_func,text)
+		return latex_func.format(text)
 
 	def do_box(self,elm):
 		"""
@@ -108,12 +108,32 @@ class oMath2Latex(object):
 		return self.process_children(elm)
 
 	def do_sub(self,elm):
-		run_elm = elm.find('./{0}r'.format(OMML_NS))
-		return self.do_r(run_elm,SUB+'{%s}')
+		text = self.process_children(elm)
+		return SUB.format(text)
 
 	def do_sup(self,elm):
-		run_elm = elm.find('./{0}r'.format(OMML_NS))
-		return self.do_r(run_elm,SUP+'{%s}')
+		text = self.process_children(elm)
+		return SUP.format(text)
+
+	def do_f(self,elm):
+		"""
+		process the fraction object
+		"""
+		num_elm = elm.find('./{0}num'.format(OMML_NS))
+		num_text= self.do_num(num_elm)
+		den_elm = elm.find('./{0}den'.format(OMML_NS))
+		den_text= self.do_den(den_elm)
+		return F.format(num=num_text,den=den_text)
+
+	def do_num(self,elm):
+		"""
+		"""
+		return self.process_children(elm)
+
+	def do_den(self,elm):
+		"""
+		"""
+		return self.process_children(elm)
 
 	def do_e(self,elm):
 		"""
@@ -139,6 +159,9 @@ class oMath2Latex(object):
 		'sSub' : do_ssub,
 		'sSup' : do_ssup,
 		'sSubSup' : do_ssubsup,
+		'f'   : do_f,
+		'num' : do_num,
+		'den' : do_den,
  	}
 
 

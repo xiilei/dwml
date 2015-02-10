@@ -22,18 +22,33 @@
 				</m:r>
 			</m:e>
 		</m:bar>
-		<m:sSup>
-			<m:e>
-				<m:r>
-					<m:t>x</m:t>
-				</m:r>
-			</m:e>
-			<m:sup>
-				<m:r>
-					<m:t>1</m:t>
-				</m:r>
-			</m:sup>
-		</m:sSup>
+		<m:f>
+			<m:fPr>
+				<m:type m:val="skw"/>
+			</m:fPr>
+			<m:num>			
+				<m:sSup>
+					<m:e>
+						<m:r>
+							<m:t>x</m:t>
+						</m:r>
+					</m:e>
+					<m:sup>
+						<m:r>
+							<m:t>1</m:t>
+						</m:r>
+						<m:r>
+							<m:t>1</m:t>
+						</m:r>
+					</m:sup>
+				</m:sSup>
+			</m:num>
+			<m:den>
+					<m:r>
+						<m:t>b</m:t>
+					</m:r>
+			</m:den>
+		</m:f>>
 		<m:sSubSup>
 			<m:e>
 				<m:r>
