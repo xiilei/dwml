@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
 	<m:oMath>
+		<m:r>
+			<m:t>𝛼𝛽𝛾𝜃</m:t>
+		</m:r>
 		<m:acc>
 			<m:accPr>
 				<m:chr m:val="&#771;"/>

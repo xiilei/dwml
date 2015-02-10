@@ -49,6 +49,43 @@ CHR = {
 	'\u20EF' : r'\underrightarrow{{{0}}}',
 }
 
+T = {
+	'\u2192' : r'\rightarrow',
+	#Greek letters
+	'\U0001D6FC' : r'\alpha',
+	'\U0001D6FD' : r'\beta',
+	'\U0001D6FE' : r'\gamma',
+	'\U0001D6FF' : r'\theta',
+	'\U0001D700' : r'\epsilon',
+	'\U0001D701' : r'\zeta',
+	'\U0001D702' : r'\eta',
+	'\U0001D703' : r'\theta',
+	'\U0001D704' : r'\iota',
+	'\U0001D705' : r'\kappa',
+	'\U0001D706' : r'\lambda',
+	'\U0001D707' : r'\mu',
+	'\U0001D708' : r'\nu',
+	'\U0001D709' : r'\xi',
+	'\U0001D70A' : r'\omicron',
+	'\U0001D70B' : r'\pi',
+	'\U0001D70C' : r'\rho',
+	'\U0001D70D' : r'\varsigma',
+	'\U0001D70E' : r'\sigma',
+	'\U0001D70F' : r'\tau',
+	'\U0001D710' : r'\upsilon',
+	'\U0001D711' : r'\phi',
+	'\U0001D712' : r'\chi',
+	'\U0001D713' : r'\psi',
+	'\U0001D714' : r'\omega',
+	'\U0001D715' : r'\partial',
+	'\U0001D716' : r'\varepsilon',
+	'\U0001D717' : r'\vartheta',
+	'\U0001D718' : r'\varkappa',
+	'\U0001D719' : r'\varphi',
+	'\U0001D71A' : r'\varrho',
+	'\U0001D71B' : r'\varpi', 
+}
+
 CHR_DEFAULT = {
 	'ACC_VAL':r'\hat{{{0}}}',
 }

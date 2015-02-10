@@ -6,7 +6,7 @@ Office Math Markup Language (OMML)
 
 import xml.etree.ElementTree as ET
 
-from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F
+from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,T
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -135,14 +135,27 @@ class oMath2Latex(object):
 		"""
 		return self.process_children(elm)
 
+
+	def do_func(self,elm):
+		"""
+		"""
+		pass
+
 	def do_e(self,elm):
 		"""
 		the "element object" has more unknown elements,so process all children of it
 		"""
 		return self.process_children(elm)
 
-	def do_r(self,elm,format_str = '%s'):
-		return format_str % elm.findtext('./{0}t'.format(OMML_NS))
+	def do_r(self,elm):
+		"""
+		Get text from 'r' element,And try convert them to latex symbols
+		"""
+		_str = []
+		for s in elm.findtext('./{0}t'.format(OMML_NS)):
+			latex_s = T.get(s)
+			_str.append(latex_s if latex_s else s)
+		return ''.join(_str)
 
 	def get_latex(self,key,store=CHR,default=None):
 		latex = store.get(key)
