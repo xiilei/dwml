@@ -22,13 +22,13 @@ class oMath2Latex(object):
 	"""
 
 	def __init__(self,element):
-		self._latex = ''
-		self.process(element)
+		self._latex = self.process_children(element)
+		
 
 	def __str__(self):
 		return self._latex
 	
-	def process(self,elm):
+	def process_children(self,elm):
 		latex_chars = list()
 		getmetod = self.tag2meth.get
 		for elm in list(elm):
@@ -36,7 +36,7 @@ class oMath2Latex(object):
 			meth = getmetod(s_tag)
 			if meth :
 				latex_chars.append(meth(self,elm))
-		self._latex = ''.join(latex_chars)
+		return ''.join(latex_chars)
 
 	def get_latex(self):
 		return self._latex
@@ -93,34 +93,19 @@ class oMath2Latex(object):
 		"""
 		process the subscript object
 		"""
-		e_elm = elm.find('./{0}e'.format(OMML_NS))
-		text_base = self.do_e(e_elm)
-		sub_elm = elm.find('./{0}sub'.format(OMML_NS))
-		text_sub = self.do_sub(sub_elm)
-		return text_base+text_sub		
+		return self.process_children(elm)
 
 	def do_ssup(self,elm):
 		"""
 		process the supscript object
 		"""
-		e_elm = elm.find('./{0}e'.format(OMML_NS))
-		text_base = self.do_e(e_elm)
-		sup_elm = elm.find('./{0}sup'.format(OMML_NS))
-		text_sup = self.do_sup(sup_elm)
-		return text_base+text_sup	
+		return self.process_children(elm)
 
 	def do_ssubsup(self,elm):
 		"""
 		process the sub-superscript object
 		"""
-		e_elm = elm.find('./{0}e'.format(OMML_NS))
-		test_base = self.do_e(e_elm)
-		sup_elm = elm.find('./{0}sup'.format(OMML_NS))
-		text_sup = self.do_sup(sup_elm)
-		sub_elm = elm.find('./{0}sub'.format(OMML_NS))
-		text_sub = self.do_sub(sub_elm)
-		return test_base+text_sub+text_sup
-
+		return self.process_children(elm)
 
 	def do_sub(self,elm):
 		run_elm = elm.find('./{0}r'.format(OMML_NS))
@@ -131,8 +116,10 @@ class oMath2Latex(object):
 		return self.do_r(run_elm,SUP+'{%s}')
 
 	def do_e(self,elm):
-		run_elm = elm.find('./{0}r'.format(OMML_NS))
-		return self.do_r(run_elm)
+		"""
+		the "element object" has more unknown elements,so process all children of it
+		"""
+		return self.process_children(elm)
 
 	def do_r(self,elm,format_str = '%s'):
 		return format_str % elm.findtext('./{0}t'.format(OMML_NS))
@@ -147,6 +134,8 @@ class oMath2Latex(object):
 		'e' : do_e,
 		'r' : do_r,
 		'bar' : do_bar,
+		'sub' : do_sub,
+		'sup' : do_sup,
 		'sSub' : do_ssub,
 		'sSup' : do_ssup,
 		'sSubSup' : do_ssubsup,
