@@ -61,3 +61,7 @@ POS = {
 POS_DEFAULT = {
 	'BAR_VAL': r'\overline',
 }
+
+SUB = '_'
+
+SUP = '^'

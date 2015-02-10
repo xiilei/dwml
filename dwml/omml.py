@@ -6,7 +6,7 @@ Office Math Markup Language (OMML)
 
 import xml.etree.ElementTree as ET
 
-from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT
+from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -17,6 +17,9 @@ def load(stream):
 
 
 class oMath2Latex(object):
+	"""
+
+	"""
 
 	def __init__(self,element):
 		self._latex = ''
@@ -80,7 +83,13 @@ class oMath2Latex(object):
 		"""
 		pass
 
-	def do_s_sub(self,elm):
+	def do_spre(self,elm):
+		"""
+		process the Pre-Sub-Superscript object -- Not support yet
+		"""
+		pass
+
+	def do_ssub(self,elm):
 		"""
 		process the subscript object
 		"""
@@ -90,25 +99,43 @@ class oMath2Latex(object):
 		text_sub = self.do_sub(sub_elm)
 		return text_base+text_sub		
 
-	def do_s_sup(self,elm):
-		pass
+	def do_ssup(self,elm):
+		"""
+		process the supscript object
+		"""
+		e_elm = elm.find('./{0}e'.format(OMML_NS))
+		text_base = self.do_e(e_elm)
+		sup_elm = elm.find('./{0}sup'.format(OMML_NS))
+		text_sup = self.do_sup(sup_elm)
+		return text_base+text_sup	
+
+	def do_ssubsup(self,elm):
+		"""
+		process the sub-superscript object
+		"""
+		e_elm = elm.find('./{0}e'.format(OMML_NS))
+		test_base = self.do_e(e_elm)
+		sup_elm = elm.find('./{0}sup'.format(OMML_NS))
+		text_sup = self.do_sup(sup_elm)
+		sub_elm = elm.find('./{0}sub'.format(OMML_NS))
+		text_sub = self.do_sub(sub_elm)
+		return test_base+text_sub+text_sup
+
 
 	def do_sub(self,elm):
 		run_elm = elm.find('./{0}r'.format(OMML_NS))
-		text = self.do_r(run_elm)
-		return '^{%s}' % text
+		return self.do_r(run_elm,SUB+'{%s}')
 
 	def do_sup(self,elm):
 		run_elm = elm.find('./{0}r'.format(OMML_NS))
-		text = self.do_r(run_elm)
-		return '_{%s}' % text
+		return self.do_r(run_elm,SUP+'{%s}')
 
 	def do_e(self,elm):
 		run_elm = elm.find('./{0}r'.format(OMML_NS))
 		return self.do_r(run_elm)
 
-	def do_r(self,elm):
-		return elm.findtext('./{0}t'.format(OMML_NS))
+	def do_r(self,elm,format_str = '%s'):
+		return format_str % elm.findtext('./{0}t'.format(OMML_NS))
 
 	def get_latex(self,key,store=CHR,default=None):
 		latex = store.get(key)
@@ -120,8 +147,10 @@ class oMath2Latex(object):
 		'e' : do_e,
 		'r' : do_r,
 		'bar' : do_bar,
-		'sSub' : do_s_sub,
-	}
+		'sSub' : do_ssub,
+		'sSup' : do_ssup,
+		'sSubSup' : do_ssubsup,
+ 	}
 
 
 
