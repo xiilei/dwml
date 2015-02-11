@@ -8,6 +8,8 @@ http://www.ctan.org/tex-archive/macros/latex/contrib/unicode-math
 https://github.com/wspr/unicode-math/blob/master/unicode-math-table.tex
 """
 
+CHARS = ('\\','{','}', r'_', '^', '#', '&', '$', '%', '~')
+
 CHR = {
 	#Unicode : Latex Math Symbols
 	#Top accents
@@ -47,6 +49,14 @@ CHR = {
 	'\u20ED' : r'\underleftharpoondown{{{0}}}',
 	'\u20EE' : r'\underledtarrow{{{0}}}',
 	'\u20EF' : r'\underrightarrow{{{0}}}',
+	#Over | group
+	'\u23B4' : r'\overbracket{{{0}}}',
+	'\u23DC' : r'\overparen{{{0}}}',
+	'\u23DE' : r'\overbrace{{{0}}}',
+	#Under| group
+	'\u23B5' : r'\underbracket{{{0}}}',
+	'\u23DD' : r'\underparen{{{0}}}',
+	'\u23DF' : r'\underbrace{{{0}}}',
 }
 
 T = {
@@ -121,3 +131,5 @@ SUB = '_{{{0}}}'
 SUP = '^{{{0}}}'
 
 F  = r'\frac{{{num}}}{{{den}}}'
+
+D  = r'\left{left}{text}\right{right}'

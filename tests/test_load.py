@@ -12,6 +12,10 @@ class TestLoad(unittest.TestCase):
 		for omath in omml.load(PROJECT_ROOT+'/tests/simple.xml'):
 			print(omath)
 
+	def test_load_group(self):
+		for omath in omml.load(PROJECT_ROOT+'/tests/group.xml'):
+			print(omath)
+
 
 
 
