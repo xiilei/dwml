@@ -3,8 +3,11 @@
 """
 Office Math Markup Language (OMML)
 """
+try:
+	import lxml.etree as ET # It's faster than 'xml.etree.ElementTree' in CPython
+except ImportError:
+	import xml.etree.ElementTree as ET
 
-import xml.etree.ElementTree as ET
 
 from dwml.latex_dict import CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,T,FUNC
 
@@ -38,12 +41,15 @@ class oMath2Latex(object):
 		if t_dict:
 			self._t_dict = t_dict
 
-		getmetod = self.tag2meth.get
+		getmethod = self.tag2meth.get
 		for elm in list(elm):
+			#Ignore for not 'm' namespace prefix
+			if OMML_NS not in elm.tag:
+				continue
 			s_tag = elm.tag.replace(OMML_NS,'')
-			meth = getmetod(s_tag)
-			if meth :
-				latex_chars.append(meth(self,elm))
+			method = getmethod(s_tag)
+			if method :
+				latex_chars.append(method(self,elm))
 
 		self._t_dict = t_dict_back
 		return ''.join(latex_chars)
