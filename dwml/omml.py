@@ -48,24 +48,36 @@ class oMath2Latex(object):
 	def __str__(self):
 		return self.get_latex()
 
-	def process_children(self,elm,t_dict=None):
-		latex_chars = list()
+
+	def call_methon(self,elm):
+		getmethod = self.tag2meth.get
+		s_tag = elm.tag.replace(OMML_NS,'')
+		method = getmethod(s_tag)
+		if method:
+			return method(self,elm)
+		else:
+			return None
+
+	def process_children(self,elm,return_dict=False,t_dict=None):
+		latex_chars = list() if not return_dict else dict()
 		t_dict_back = self._t_dict	
 		if t_dict:
 			self._t_dict = t_dict
-
-		getmethod = self.tag2meth.get
-		for elm in list(elm):
+		
+		for _e in list(elm):
 			#Ignore elements which not 'm' namespace prefix
-			if OMML_NS not in elm.tag:
+			if OMML_NS not in _e.tag:
 				continue
-			s_tag = elm.tag.replace(OMML_NS,'')
-			method = getmethod(s_tag)
-			if method :
-				latex_chars.append(method(self,elm))
+			if not return_dict:			
+				latex_chars.append(self.call_methon(_e))
+			else:
+				latex_chars[_e.tag] = self.call_methon(_e)
 
 		self._t_dict = t_dict_back
-		return ''.join(latex_chars)
+		if not return_dict:
+			return ''.join(latex_chars)
+		else:
+			return latex_chars
 
 	def process_chrval(self,elm,chr_match,default=None,with_e=True,store=CHR):
 		"""
@@ -161,11 +173,8 @@ class oMath2Latex(object):
 		"""
 		process the fraction object
 		"""
-		num_elm = elm.find('./{0}num'.format(OMML_NS))
-		num_text= self.do_num(num_elm)
-		den_elm = elm.find('./{0}den'.format(OMML_NS))
-		den_text= self.do_den(den_elm)
-		return F.format(num=num_text,den=den_text)
+		c_dict = self.process_children(elm,return_dict=True)
+		return F.format(num=c_dict.get(OMML_NS+'num'),den=c_dict.get(OMML_NS+'den'))
 
 	def do_num(self,elm):
 		"""
@@ -184,11 +193,9 @@ class oMath2Latex(object):
 		"""
 		process the Function-Apply object (Examples:sin cos)
 		"""
-		fname_elm = elm.find('./{0}fName'.format(OMML_NS))
-		latax_name = self.do_f_name(fname_elm)
-		e_elm = elm.find('./{0}e'.format(OMML_NS))
-		text = self.do_e(e_elm)
-		return latax_name.format(text)
+		c_dict = self.process_children(elm,return_dict=True)
+		func_name = c_dict.get(OMML_NS+'fName')
+		return func_name.format(c_dict.get(OMML_NS+'e'))
 
 	def do_f_name(self,elm):
 		"""
