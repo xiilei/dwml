@@ -56,7 +56,7 @@
 	<m:d>
 		<m:dPr>
 			<m:begChr m:val="{"/>
-			<m:endChr m:val=""/> 
+			<m:endChr /> 
 		</m:dPr> 
 		<m:e>
 			<m:r>

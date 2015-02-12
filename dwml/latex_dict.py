@@ -133,3 +133,9 @@ SUP = '^{{{0}}}'
 F  = r'\frac{{{num}}}{{{den}}}'
 
 D  = r'\left{left}{text}\right{right}'
+
+D_DEFAULT = {
+	'left':')',
+	'right':')',
+	'null':'.',
+}

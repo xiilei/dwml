@@ -9,7 +9,7 @@ except ImportError:
 	import xml.etree.ElementTree as ET
 
 
-from dwml.latex_dict import CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,T,FUNC,D
+from dwml.latex_dict import CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,T,FUNC,D,D_DEFAULT
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -130,11 +130,14 @@ class oMath2Latex(object):
 		"""
 		process the delimiter object
 		"""
-		s_val = self.process_chrval(elm,chr_match='./{0}dPr/{0}begChr',default='(',with_e=False)
-		e_val,text = self.process_chrval(elm,chr_match='./{0}dPr/{0}endChr',default=')')
-		return D.format(left=escape_latex(s_val if s_val else '.'),
-						text=text,
-						right=escape_latex(e_val if e_val else '.'))
+		s_val = self.process_chrval(elm,chr_match='./{0}dPr/{0}begChr',
+				default=D_DEFAULT.get('left'),with_e=False)
+		e_val,text = self.process_chrval(elm,chr_match='./{0}dPr/{0}endChr',
+				default=D_DEFAULT.get('right'))
+		null = D_DEFAULT.get('null')
+		return D.format(left= null if not s_val else escape_latex(s_val),
+					text=text,
+					right= null if not e_val else  escape_latex(e_val))
 
 
 	def do_spre(self,elm):
@@ -228,8 +231,7 @@ class oMath2Latex(object):
 		"""
 		_str = []
 		for s in elm.findtext('./{0}t'.format(OMML_NS)):
-			latex_s = self._t_dict.get(s)
-			_str.append(latex_s if latex_s else s)
+			_str.append(self._t_dict.get(s,s))
 		return ''.join(_str)
 
 	#@todo restructure
