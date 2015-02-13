@@ -130,7 +130,13 @@ SUB = '_{{{0}}}'
 
 SUP = '^{{{0}}}'
 
-F  = r'\frac{{{num}}}{{{den}}}'
+F = {
+	'bar': r'\frac{{{num}}}{{{den}}}',
+	'skw': r'^{{{num}}}/_{{{den}}}',
+	#noBar -- not support
+	#lin -- not support
+}
+F_DEFAULT = r'\frac{{{num}}}{{{den}}}'
 
 D  = r'\left{left}{text}\right{right}'
 

@@ -11,7 +11,7 @@ except ImportError:
 	import xml.etree.ElementTree as ET
 
 
-from dwml.latex_dict import CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,T,FUNC,D,D_DEFAULT
+from dwml.latex_dict import CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -126,7 +126,7 @@ class oMath2Latex(object):
 		"""
 		process the box object
 		"""
-		pass
+		return self.process_children(elm)
 
 	def do_d(self,elm):
 		"""
@@ -179,7 +179,16 @@ class oMath2Latex(object):
 		process the fraction object
 		"""
 		c_dict = self.process_children(elm,return_dict=True)
-		return F.format(num=c_dict.get(OMML_NS+'num'),den=c_dict.get(OMML_NS+'den'))
+		latex_s = c_dict.get(OMML_NS+'fPr',F_DEFAULT)
+		return latex_s.format(num=c_dict.get(OMML_NS+'num'),den=c_dict.get(OMML_NS+'den'))
+
+	def do_fpr(self,elm):
+		type_elm = elm.find('./{0}type'.format(OMML_NS))
+		if type_elm is not None:
+			val = type_elm.get('{0}val'.format(OMML_NS))
+			if val is not None:
+				return F.get(val,F_DEFAULT)
+		return F_DEFAULT
 
 	def do_num(self,elm):
 		"""
@@ -202,7 +211,7 @@ class oMath2Latex(object):
 		func_name = c_dict.get(OMML_NS+'fName')
 		return func_name.format(c_dict.get(OMML_NS+'e'))
 
-	def do_f_name(self,elm):
+	def do_fname(self,elm):
 		"""
 		the func name
 		"""
@@ -213,12 +222,20 @@ class oMath2Latex(object):
 		else :
 			raise NotSupport("Not support func %s" % name)
 
-	def do_group_chr(self,elm):
+	def do_groupchr(self,elm):
 		"""
 		process the Group-Character object
 		"""
 		latex_s,text = self.process_chrval(elm,chr_match='./{0}groupChrPr/{0}chr')
 		return latex_s.format(text)
+
+
+	def do_eqarr(self,elm):
+		"""
+		process the Array object
+		"""
+		pass
+
 
 
 	def do_e(self,elm):
@@ -230,6 +247,7 @@ class oMath2Latex(object):
 	def do_r(self,elm):
 		"""
 		Get text from 'r' element,And try convert them to latex symbols
+		@todo text style support , (sty)
 		"""
 		_str = []
 		for s in elm.findtext('./{0}t'.format(OMML_NS)):
@@ -242,6 +260,7 @@ class oMath2Latex(object):
 		'e' : do_e,
 		'r' : do_r,
 		'bar' : do_bar,
+		'box' : do_box,
 		'sub' : do_sub,
 		'sup' : do_sup,
 		'sSub' : do_ssub,
@@ -251,8 +270,9 @@ class oMath2Latex(object):
 		'num' : do_num,
 		'den' : do_den,
 		'func': do_func,
-		'fName' : do_f_name,
-		'groupChr' : do_group_chr,
+		'fPr' : do_fpr,
+		'fName' : do_fname,
+		'groupChr' : do_groupchr,
 		'd' : do_d,
  	}
 
