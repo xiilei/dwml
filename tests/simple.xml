@@ -29,9 +29,22 @@
 				</m:r>
 			</m:fName>
 			<m:e>
-				<m:r>
-					<m:t>x</m:t>
-				</m:r>
+				<m:rad>
+					<m:deg>
+						<m:r>
+							<m:rPr>
+								<m:scr m:val="roman"/>
+								<m:sty m:val="p"/>
+							</m:rPr>
+							<m:t>3</m:t>
+						</m:r>
+					</m:deg>
+					<m:e>
+						<m:r>
+							<m:t>x</m:t>
+						</m:r>
+					</m:e>
+				</m:rad>
 			</m:e>
 		</m:func>
 		<m:f>
@@ -80,8 +93,17 @@
 		</m:sSubSup>
 	</m:oMath>		
 	<m:oMath>
-		<m:r>
-			<m:t>2+2=4</m:t>
-		</m:r>
+		<m:eqArr>
+<m:e>
+<m:r>
+<m:t>a=b+c</m:t>
+</m:r>
+</m:e>
+<m:e>
+<m:r>
+<m:t>d+e=f</m:t>
+</m:r>
+</m:e>
+</m:eqArr>
 	</m:oMath>
 </m:oMathPara>

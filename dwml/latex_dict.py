@@ -145,3 +145,9 @@ D_DEFAULT = {
 	'right':')',
 	'null':'.',
 }
+
+RAD = r'\sqrt[{deg}]{{{text}}}'
+
+RAD_DEFAULT = r'\sqrt{{{text}}}'
+
+ARR = r'\begin{{array}}{{l l}}{text}\end{{array}}'

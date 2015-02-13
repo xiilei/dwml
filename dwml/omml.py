@@ -11,7 +11,8 @@ except ImportError:
 	import xml.etree.ElementTree as ET
 
 
-from dwml.latex_dict import CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT
+from dwml.latex_dict import (CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT
+	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR)
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -51,35 +52,45 @@ class oMath2Latex(object):
 		return str(self.get_latex())
 
 
-	def call_methon(self,elm):
+	def call_method(self,elm,s_tag=None):
 		getmethod = self.tag2meth.get
-		s_tag = elm.tag.replace(OMML_NS,'')
+		if s_tag is None:
+			s_tag = elm.tag.replace(OMML_NS,'')
 		method = getmethod(s_tag)
 		if method:
 			return method(self,elm)
 		else:
 			return None
 
-	def process_children(self,elm,return_dict=False,t_dict=None):
-		latex_chars = list() if not return_dict else dict()
-		t_dict_back = self._t_dict	
-		if t_dict:
-			self._t_dict = t_dict
-		
+	def process_children_list(self,elm,include=None):
+		"""
+		process children of the elm,return iterable
+		"""
 		for _e in list(elm):
-			#Ignore elements which not 'm' namespace prefix
-			if OMML_NS not in _e.tag:
+			if (OMML_NS not in _e.tag):
 				continue
-			if not return_dict:			
-				latex_chars.append(self.call_methon(_e))
-			else:
-				latex_chars[_e.tag] = self.call_methon(_e)
+			s_tag = _e.tag.replace(OMML_NS,'')
+			if include and (s_tag not in include):
+				continue
+			t = self.call_method(_e,s_tag=s_tag)
+			if t is None:
+				continue
+			yield (s_tag,t)
+			
+	def process_children_dict(self,elm,include=None):
+		"""
+		process children of the elm,return dict
+		"""
+		latex_chars = dict()
+		for s_tag,t in self.process_children_list(elm,include):
+			latex_chars[s_tag] = t
+		return latex_chars
 
-		self._t_dict = t_dict_back
-		if not return_dict:
-			return ''.join(latex_chars)
-		else:
-			return latex_chars
+	def process_children(self,elm,include=None):
+		"""
+		process children of the elm,return string
+		"""
+		return ''.join(( t for s_tag,t in self.process_children_list(elm,include)))
 
 	def process_chrval(self,elm,chr_match,default=None,with_e=True,store=CHR):
 		"""
@@ -96,7 +107,7 @@ class oMath2Latex(object):
 			else:
 				latex_s = default
 		if with_e:	
-			text = self.do_e(elm.find('./{0}e'.format(OMML_NS)))
+			text = self.call_method(elm.find('./{0}e'.format(OMML_NS)))
 			return (latex_s,text)
 		else:
 			return latex_s
@@ -178,9 +189,9 @@ class oMath2Latex(object):
 		"""
 		process the fraction object
 		"""
-		c_dict = self.process_children(elm,return_dict=True)
-		latex_s = c_dict.get(OMML_NS+'fPr',F_DEFAULT)
-		return latex_s.format(num=c_dict.get(OMML_NS+'num'),den=c_dict.get(OMML_NS+'den'))
+		c_dict = self.process_children_dict(elm)
+		latex_s = c_dict.get('fPr',F_DEFAULT)
+		return latex_s.format(num=c_dict.get('num'),den=c_dict.get('den'))
 
 	def do_fpr(self,elm):
 		type_elm = elm.find('./{0}type'.format(OMML_NS))
@@ -207,16 +218,16 @@ class oMath2Latex(object):
 		"""
 		process the Function-Apply object (Examples:sin cos)
 		"""
-		c_dict = self.process_children(elm,return_dict=True)
-		func_name = c_dict.get(OMML_NS+'fName')
-		return func_name.format(c_dict.get(OMML_NS+'e'))
+		c_dict = self.process_children_dict(elm)
+		func_name = c_dict.get('fName')
+		return func_name.format(c_dict.get('e'))
 
 	def do_fname(self,elm):
 		"""
 		the func name
 		"""
-		nr_elm = elm.find('./{0}r'.format(OMML_NS))
-		name = self.do_r(nr_elm)
+		c_dict = self.process_children_dict(elm)
+		name = c_dict.get('r')
 		if FUNC.get(name):
 			return FUNC[name]
 		else :
@@ -229,14 +240,30 @@ class oMath2Latex(object):
 		latex_s,text = self.process_chrval(elm,chr_match='./{0}groupChrPr/{0}chr')
 		return latex_s.format(text)
 
+	def do_rad(self,elm):
+		"""
+		process the radical object
+		"""
+		c_dict = self.process_children_dict(elm)
+		text = c_dict.get('e')
+		deg_text = c_dict.get('deg')
+		if deg_text:
+			return RAD.format(deg=deg_text,text=text)
+		else:
+			return RAD_DEFAULT.format(text=text)
+			
+
+	def do_deg(self,elm):
+		"""
+		process the degree in the mathematical radical
+		"""
+		return self.process_children(elm)		
 
 	def do_eqarr(self,elm):
 		"""
 		process the Array object
 		"""
-		pass
-
-
+		return ARR.format(text='\\\\'.join([t for s_tag,t in self.process_children_list(elm,include=('e',))]))
 
 	def do_e(self,elm):
 		"""
@@ -274,6 +301,9 @@ class oMath2Latex(object):
 		'fName' : do_fname,
 		'groupChr' : do_groupchr,
 		'd' : do_d,
+		'rad' : do_rad,
+		'deg' : do_deg,
+		#'eqArr' : do_eqarr,
  	}
 
 
