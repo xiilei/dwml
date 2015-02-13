@@ -3,6 +3,8 @@
 """
 Office Math Markup Language (OMML)
 """
+import six
+
 try:
 	import lxml.etree as ET # It's faster than 'xml.etree.ElementTree' in CPython
 except ImportError:
@@ -46,7 +48,7 @@ class oMath2Latex(object):
 		
 
 	def __str__(self):
-		return self.get_latex()
+		return str(self.get_latex())
 
 
 	def call_methon(self,elm):
@@ -101,7 +103,7 @@ class oMath2Latex(object):
 
 
 	def get_latex(self):
-		return self._latex
+		return self._latex if six.PY3 else self._latex.encode('utf-8')
 
 	def do_acc(self,elm):
 		"""
@@ -232,7 +234,7 @@ class oMath2Latex(object):
 		_str = []
 		for s in elm.findtext('./{0}t'.format(OMML_NS)):
 			_str.append(self._t_dict.get(s,s))
-		return ''.join(_str)
+		return escape_latex(''.join(_str))
 
 	#@todo restructure
 	tag2meth={
