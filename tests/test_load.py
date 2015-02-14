@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 
 # -*- coding: utf-8 -*-
 
 import unittest
@@ -14,6 +14,10 @@ class TestLoad(unittest.TestCase):
 
 	def test_load_group(self):
 		for omath in omml.load(PROJECT_ROOT+'/tests/group.xml'):
+			print(omath)
+
+	def test_load_lim(self):
+		for omath in omml.load(PROJECT_ROOT+'/tests/lim.xml'):
 			print(omath)
 
 

@@ -41,7 +41,7 @@ class NotSupport(Exception):
 
 class oMath2Latex(object):
 	"""
-
+	
 	"""
 	_t_dict = T
 
@@ -221,7 +221,7 @@ class oMath2Latex(object):
 		"""
 		c_dict = self.process_children_dict(elm)
 		func_name = c_dict.get('fName')
-		return func_name.format(c_dict.get('e'))
+		return func_name.replace('{fe}',c_dict.get('e'))
 
 	def do_fname(self,elm):
 		"""
@@ -236,7 +236,8 @@ class oMath2Latex(object):
 					raise NotSupport("Not support func %s" % t)
 			else:
 				latex_chars.append(t)
-		return ''.join(latex_chars)	
+		latex_chars.append('{fe}') #do_func will replace this
+		return ''.join(latex_chars)
 
 	def do_groupchr(self,elm):
 		"""
@@ -277,6 +278,11 @@ class oMath2Latex(object):
 		the Lower-Limit object
 		"""
 		t_dict = self.process_children_dict(elm,include=('e','lim'))
+		latex_s = LIM_FUNC.get(t_dict['e'])
+		if not latex_s :
+			raise NotSupport("Not support lim %s" % t_dict['e'])
+		else:
+			return latex_s.format(lim=t_dict.get('lim'))
 
 	def do_limupp(self,elm):
 		"""
@@ -284,7 +290,7 @@ class oMath2Latex(object):
 		"""
 		pass
 
-	def do_limit(self,elm):
+	def do_lim(self,elm):
 		"""
 		the lower limit of the limLow object and the upper limit of the limUpp function
 		"""
@@ -335,14 +341,6 @@ class oMath2Latex(object):
 		'rad' : do_rad,
 		'deg' : do_deg,
 		'eqArr' : do_eqarr,
+		'limLow' : do_limlow,
+		'lim' : do_lim,
  	}
-
-
-
-
-
-	
-
-
-
-
