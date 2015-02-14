@@ -3,13 +3,13 @@
 """
 Office Math Markup Language (OMML)
 """
-import six
 
 try:
 	import lxml.etree as ET # It's faster than 'xml.etree.ElementTree' in CPython
 except ImportError:
 	import xml.etree.ElementTree as ET
 
+from dwml.utils import PY3
 
 from dwml.latex_dict import (CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
@@ -115,7 +115,7 @@ class oMath2Latex(object):
 
 
 	def get_latex(self):
-		return self._latex if six.PY3 else self._latex.encode('utf-8')
+		return self._latex if PY3 else self._latex.encode('utf-8')
 
 	def do_acc(self,elm):
 		"""
