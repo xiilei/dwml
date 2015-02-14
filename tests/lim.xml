@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">  
+  <m:oMathParaPr> 
+    <m:jc m:val="centerGroup"/> 
+  </m:oMathParaPr>  
+  <m:oMath>  
+    <m:r> 
+      <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1"> 
+        <a:latin typeface="Cambria Math"/> 
+      </a:rPr>  
+      <m:t>𝐴</m:t> 
+    </m:r>  
+    <m:r> 
+      <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1"> 
+        <a:latin typeface="Cambria Math"/> 
+      </a:rPr>  
+      <m:t>=</m:t> 
+    </m:r>  
+    <m:func> 
+      <m:funcPr> 
+        <m:ctrlPr> 
+          <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1"> 
+            <a:latin typeface="Cambria Math"/> 
+          </a:rPr> 
+        </m:ctrlPr> 
+      </m:funcPr>  
+      <m:fName> 
+        <m:sSub> 
+          <m:sSubPr> 
+            <m:ctrlPr> 
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr> 
+            </m:ctrlPr> 
+          </m:sSubPr>  
+          <m:e> 
+            <m:r> 
+              <m:rPr> 
+                <m:sty m:val="p"/> 
+              </m:rPr>  
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="0"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr>  
+              <m:t>log</m:t> 
+            </m:r> 
+          </m:e>  
+          <m:sub> 
+            <m:r> 
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr>  
+              <m:t>𝑥</m:t> 
+            </m:r> 
+          </m:sub> 
+        </m:sSub> 
+      </m:fName>  
+      <m:e> 
+        <m:r> 
+          <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+            <a:latin typeface="Cambria Math"/> 
+          </a:rPr>  
+          <m:t>𝑦</m:t> 
+        </m:r>  
+        <m:func> 
+          <m:funcPr> 
+            <m:ctrlPr> 
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr> 
+            </m:ctrlPr> 
+          </m:funcPr>  
+          <m:fName> 
+            <m:limLow> 
+              <m:limLowPr> 
+                <m:ctrlPr> 
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr> 
+                </m:ctrlPr> 
+              </m:limLowPr>  
+              <m:e> 
+                <m:r> 
+                  <m:rPr> 
+                    <m:sty m:val="p"/> 
+                  </m:rPr>  
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="0"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr>  
+                  <m:t>max</m:t> 
+                </m:r> 
+              </m:e>  
+              <m:lim> 
+                <m:r> 
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr>  
+                  <m:t>0≤</m:t> 
+                </m:r>  
+                <m:r> 
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr>  
+                  <m:t>𝑥</m:t> 
+                </m:r>  
+                <m:r> 
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr>  
+                  <m:t>≤1</m:t> 
+                </m:r> 
+              </m:lim> 
+            </m:limLow> 
+          </m:fName>  
+          <m:e> 
+            <m:r> 
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr>  
+              <m:t>𝑥</m:t> 
+            </m:r>  
+            <m:sSup> 
+              <m:sSupPr> 
+                <m:ctrlPr> 
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr> 
+                </m:ctrlPr> 
+              </m:sSupPr>  
+              <m:e> 
+                <m:r> 
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr>  
+                  <m:t>𝑒</m:t> 
+                </m:r> 
+              </m:e>  
+              <m:sup> 
+                <m:r> 
+                  <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                    <a:latin typeface="Cambria Math"/> 
+                  </a:rPr>  
+                  <m:t>−</m:t> 
+                </m:r>  
+                <m:sSup> 
+                  <m:sSupPr> 
+                    <m:ctrlPr> 
+                      <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                        <a:latin typeface="Cambria Math"/> 
+                      </a:rPr> 
+                    </m:ctrlPr> 
+                  </m:sSupPr>  
+                  <m:e> 
+                    <m:r> 
+                      <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                        <a:latin typeface="Cambria Math"/> 
+                      </a:rPr>  
+                      <m:t>𝑥</m:t> 
+                    </m:r> 
+                  </m:e>  
+                  <m:sup> 
+                    <m:r> 
+                      <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                        <a:latin typeface="Cambria Math"/> 
+                      </a:rPr>  
+                      <m:t>2</m:t> 
+                    </m:r> 
+                  </m:sup> 
+                </m:sSup> 
+              </m:sup> 
+            </m:sSup> 
+          </m:e> 
+        </m:func> 
+      </m:e> 
+    </m:func>  
+    <m:func> 
+      <m:funcPr> 
+        <m:ctrlPr> 
+          <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1"> 
+            <a:latin typeface="Cambria Math"/> 
+          </a:rPr> 
+        </m:ctrlPr> 
+      </m:funcPr>  
+      <m:fName> 
+        <m:limLow> 
+          <m:limLowPr> 
+            <m:ctrlPr> 
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr> 
+            </m:ctrlPr> 
+          </m:limLowPr>  
+          <m:e> 
+            <m:r> 
+              <m:rPr> 
+                <m:sty m:val="p"/> 
+              </m:rPr>  
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="0"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr>  
+              <m:t>lim</m:t> 
+            </m:r> 
+          </m:e>  
+          <m:lim> 
+            <m:r> 
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                <a:latin typeface="Cambria Math"/> 
+              </a:rPr>  
+              <m:t>1</m:t> 
+            </m:r>  
+            <m:r> 
+              <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+                <a:latin typeface="Cambria Math"/>  
+                <a:ea typeface="Cambria Math"/> 
+              </a:rPr>  
+              <m:t>→∞</m:t> 
+            </m:r> 
+          </m:lim> 
+        </m:limLow> 
+      </m:fName>  
+      <m:e> 
+        <m:r> 
+          <a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1"> 
+            <a:latin typeface="Cambria Math"/> 
+          </a:rPr>  
+          <m:t>𝑎</m:t> 
+        </m:r> 
+      </m:e> 
+    </m:func> 
+  </m:oMath> 
+</m:oMathPara>

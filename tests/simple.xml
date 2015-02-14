@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
-	<m:oMath>
-		<m:acc>
-			<m:accPr>
-				<m:chr m:val="&#771;"/>
-				<m:ctrlPr/>
-			</m:accPr>
-			<m:e>
-				<m:r>
-					<m:t>a</m:t>
-				</m:r>
-			</m:e>
-		</m:acc>
-		<m:bar>
-			<m:barPr>
-				<m:pos m:val="top"/>
-			</m:barPr>
-			<m:e>
-				<m:r>
-					<m:t>cdef</m:t>
-				</m:r>
-			</m:e>
-		</m:bar>
+	<m:oMath>		
 		<m:func>
 			<m:fName>
 				<m:r>
@@ -93,17 +72,38 @@
 		</m:sSubSup>
 	</m:oMath>		
 	<m:oMath>
+		<m:acc>
+			<m:accPr>
+				<m:chr m:val="&#771;"/>
+				<m:ctrlPr/>
+			</m:accPr>
+			<m:e>
+				<m:r>
+					<m:t>a</m:t>
+				</m:r>
+			</m:e>
+		</m:acc>		
 		<m:eqArr>
-<m:e>
-<m:r>
-<m:t>a=b+c</m:t>
-</m:r>
-</m:e>
-<m:e>
-<m:r>
-<m:t>d+e=f</m:t>
-</m:r>
-</m:e>
-</m:eqArr>
+			<m:e>
+				<m:r>
+					<m:t>a=b+c</m:t>
+				</m:r>
+			</m:e>
+			<m:e>
+				<m:r>
+					<m:t>d+e=f</m:t>
+				</m:r>
+			</m:e>
+	  </m:eqArr>
+	  <m:bar>
+			<m:barPr>
+				<m:pos m:val="top"/>
+			</m:barPr>
+			<m:e>
+				<m:r>
+					<m:t>cdef</m:t>
+				</m:r>
+			</m:e>
+	</m:bar>
 	</m:oMath>
 </m:oMathPara>

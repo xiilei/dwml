@@ -95,6 +95,19 @@ T = {
 	u'\U0001D719' : r'\varphi',
 	u'\U0001D71A' : r'\varrho',
 	u'\U0001D71B' : r'\varpi', 
+	#Relation symbols
+	u'\u2190' : r'\leftarrow',
+	u'\u2191' : r'\uparrow',
+	u'\u2192' : r'\rightarrow',
+	u'\u2193' : r'\downright',
+	u'\u2194' : r'\leftrightarrow',
+	u'\u2195' : r'\updownarrow',
+	u'\u2196' : r'\nwarrow',
+	u'\u2197' : r'\nearrow',
+	u'\u2198' : r'\searrow',
+	u'\u2199' : r'\swarrow',
+	#Ordinary symbols
+	u'\u221E' : r'\infty',
 }
 
 FUNC ={
@@ -150,4 +163,12 @@ RAD = r'\sqrt[{deg}]{{{text}}}'
 
 RAD_DEFAULT = r'\sqrt{{{text}}}'
 
-ARR = r'\begin{{array}}{{l l}}{text}\end{{array}}'
+ARR = r'\begin{{array}}{{c}}{text}\end{{array}}'
+
+LIM_FUNC = {
+	'lim':r'\lim_{{{lim}}}{{{text}}}',
+	'max':r'\max_{{{lim}}}{{{text}}}',
+	'min':r'\min_{{{min}}}{{{text}}}',
+}
+
+LIM_TO  = (r'\rightarrow',r'\to')

@@ -12,7 +12,8 @@ except ImportError:
 
 
 from dwml.latex_dict import (CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT
-	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR)
+	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
+	,LIM_FUNC,LIM_TO)
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -94,7 +95,7 @@ class oMath2Latex(object):
 
 	def process_chrval(self,elm,chr_match,default=None,with_e=True,store=CHR):
 		"""
-		process the accent function,
+		the accent function,
 		"""
 		val_elm = elm.find(chr_match.format(OMML_NS))
 		latex_s = ''
@@ -118,7 +119,7 @@ class oMath2Latex(object):
 
 	def do_acc(self,elm):
 		"""
-		process the accent function
+		the accent function
 		"""
 		latex_s,text = self.process_chrval(elm,chr_match='./{0}accPr/{0}chr'
 			,default = CHR_DEFAULT.get('ACC_VAL'))
@@ -127,7 +128,7 @@ class oMath2Latex(object):
 
 	def do_bar(self,elm):
 		"""
-		process the bar function
+		the bar function
 		"""
 		latex_s,text = self.process_chrval(elm,chr_match='./{0}barPr/{0}pos'
 			,default = POS_DEFAULT.get('BAR_VAL'),store=POS)
@@ -135,13 +136,13 @@ class oMath2Latex(object):
 
 	def do_box(self,elm):
 		"""
-		process the box object
+		the box object
 		"""
 		return self.process_children(elm)
 
 	def do_d(self,elm):
 		"""
-		process the delimiter object
+		the delimiter object
 		"""
 		s_val = self.process_chrval(elm,chr_match='./{0}dPr/{0}begChr',
 				default=D_DEFAULT.get('left'),with_e=False)
@@ -155,25 +156,25 @@ class oMath2Latex(object):
 
 	def do_spre(self,elm):
 		"""
-		process the Pre-Sub-Superscript object -- Not support yet
+		the Pre-Sub-Superscript object -- Not support yet
 		"""
 		pass
 
 	def do_ssub(self,elm):
 		"""
-		process the subscript object
+		the subscript object
 		"""
 		return self.process_children(elm)
 
 	def do_ssup(self,elm):
 		"""
-		process the supscript object
+		the supscript object
 		"""
 		return self.process_children(elm)
 
 	def do_ssubsup(self,elm):
 		"""
-		process the sub-superscript object
+		the sub-superscript object
 		"""
 		return self.process_children(elm)
 
@@ -187,7 +188,7 @@ class oMath2Latex(object):
 
 	def do_f(self,elm):
 		"""
-		process the fraction object
+		the fraction object
 		"""
 		c_dict = self.process_children_dict(elm)
 		latex_s = c_dict.get('fPr',F_DEFAULT)
@@ -216,7 +217,7 @@ class oMath2Latex(object):
 
 	def do_func(self,elm):
 		"""
-		process the Function-Apply object (Examples:sin cos)
+		the Function-Apply object (Examples:sin cos)
 		"""
 		c_dict = self.process_children_dict(elm)
 		func_name = c_dict.get('fName')
@@ -226,23 +227,27 @@ class oMath2Latex(object):
 		"""
 		the func name
 		"""
-		c_dict = self.process_children_dict(elm)
-		name = c_dict.get('r')
-		if FUNC.get(name):
-			return FUNC[name]
-		else :
-			raise NotSupport("Not support func %s" % name)
+		latex_chars = []
+		for s_tag,t in self.process_children_list(elm):
+			if s_tag == 'r':
+				if FUNC.get(t):
+					latex_chars.append(FUNC[t])
+				else :
+					raise NotSupport("Not support func %s" % t)
+			else:
+				latex_chars.append(t)
+		return ''.join(latex_chars)	
 
 	def do_groupchr(self,elm):
 		"""
-		process the Group-Character object
+		the Group-Character object
 		"""
 		latex_s,text = self.process_chrval(elm,chr_match='./{0}groupChrPr/{0}chr')
 		return latex_s.format(text)
 
 	def do_rad(self,elm):
 		"""
-		process the radical object
+		the radical object
 		"""
 		c_dict = self.process_children_dict(elm)
 		text = c_dict.get('e')
@@ -255,15 +260,41 @@ class oMath2Latex(object):
 
 	def do_deg(self,elm):
 		"""
-		process the degree in the mathematical radical
+		the degree in the mathematical radical
 		"""
 		return self.process_children(elm)		
 
 	def do_eqarr(self,elm):
 		"""
-		process the Array object
+		the Array object
 		"""
-		return ARR.format(text='\\\\'.join([t for s_tag,t in self.process_children_list(elm,include=('e',))]))
+		return ARR.format(text='\\\\'.join(
+			[t for s_tag,t in self.process_children_list(elm,include=('e',))]))
+
+
+	def do_limlow(self,elm):
+		"""
+		the Lower-Limit object
+		"""
+		t_dict = self.process_children_dict(elm,include=('e','lim'))
+
+	def do_limupp(self,elm):
+		"""
+		the Upper-Limit object
+		"""
+		pass
+
+	def do_limit(self,elm):
+		"""
+		the lower limit of the limLow object and the upper limit of the limUpp function
+		"""
+		return self.process_children(elm).replace(LIM_TO[0],LIM_TO[1])
+
+	def do_nary(self,elm):
+		"""
+		the n-ary object
+		"""
+		pass
 
 	def do_e(self,elm):
 		"""
@@ -303,7 +334,7 @@ class oMath2Latex(object):
 		'd' : do_d,
 		'rad' : do_rad,
 		'deg' : do_deg,
-		#'eqArr' : do_eqarr,
+		'eqArr' : do_eqarr,
  	}
 
 
