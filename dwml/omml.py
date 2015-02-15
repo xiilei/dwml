@@ -95,7 +95,6 @@ class oMath2Latex(object):
 
 	def process_chrval(self,elm,chr_match,default=None,with_e=True,store=CHR):
 		"""
-		the accent function,
 		"""
 		val_elm = elm.find(chr_match.format(OMML_NS))
 		latex_s = ''
@@ -112,6 +111,12 @@ class oMath2Latex(object):
 			return (latex_s,text)
 		else:
 			return latex_s
+
+	def process_pr(self,elm):
+		"""
+		@todo convert brk(Break),aln(Alignment) to latex '\\','&' symbols support
+		"""
+		pass
 
 
 	def get_latex(self):
@@ -312,6 +317,7 @@ class oMath2Latex(object):
 		"""
 		Get text from 'r' element,And try convert them to latex symbols
 		@todo text style support , (sty)
+		@todo \text (latex pure text support)
 		"""
 		_str = []
 		for s in elm.findtext('./{0}t'.format(OMML_NS)):

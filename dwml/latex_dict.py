@@ -10,6 +10,7 @@ https://github.com/wspr/unicode-math/blob/master/unicode-math-table.tex
 
 CHARS = ('{','}', '_', '^', '#', '&', '$', '%', '~')
 
+#@todo Compatible python2.x with unicode
 CHR = {
 	#Unicode : Latex Math Symbols
 	#Top accents
