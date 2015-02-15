@@ -173,3 +173,5 @@ LIM_FUNC = {
 }
 
 LIM_TO  = (r'\rightarrow',r'\to')
+
+LIM_UPP = r'\overset{{{lim}}}{{{text}}}'

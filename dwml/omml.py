@@ -13,7 +13,7 @@ from dwml.utils import PY3
 
 from dwml.latex_dict import (CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
-	,LIM_FUNC,LIM_TO)
+	,LIM_FUNC,LIM_TO,LIM_UPP)
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -293,7 +293,8 @@ class oMath2Latex(object):
 		"""
 		the Upper-Limit object
 		"""
-		pass
+		t_dict = self.process_children_dict(elm,include=('e','lim'))
+		return LIM_UPP.format(lim=t_dict.get('lim'),text=t_dict.get('e'))
 
 	def do_lim(self,elm):
 		"""
@@ -348,5 +349,6 @@ class oMath2Latex(object):
 		'deg' : do_deg,
 		'eqArr' : do_eqarr,
 		'limLow' : do_limlow,
+		'limUpp' : do_limupp,
 		'lim' : do_lim,
  	}
