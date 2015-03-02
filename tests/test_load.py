@@ -8,7 +8,7 @@ from dwml import omml
 
 class TestLoad(unittest.TestCase):
 
-	def test_load_ml(self):
+	def test_load_ml(self):		
 		for omath in omml.load(PROJECT_ROOT+'/tests/simple.xml'):
 			print(omath)
 

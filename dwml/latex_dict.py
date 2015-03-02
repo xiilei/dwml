@@ -58,6 +58,23 @@ CHR = {
 	'\u23B5' : r'\underbracket{{{0}}}',
 	'\u23DD' : r'\underparen{{{0}}}',
 	'\u23DF' : r'\underbrace{{{0}}}',
+
+}
+
+CHR_BO = {
+	#Big operators,
+	'\u2140' : r'\Bbbsum',
+	'\u220F' : r'\prod',
+	'\u2210' : r'\coprod',
+	'\u2211' : r'\sum',
+	'\u222B' : r'\int',
+	'\u22C0' : r'\bigwedge',
+	'\u22C1' : r'\bigvee',
+	'\u22C2' : r'\bigcap',
+	'\u22C3' : r'\bigcup',
+	'\u2A00' : r'\bigodot',
+	'\u2A01' : r'\bigoplus',
+	'\u2A02' : r'\bigotimes',
 }
 
 T = {

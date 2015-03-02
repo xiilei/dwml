@@ -11,7 +11,7 @@ except ImportError:
 
 from dwml.utils import PY3
 
-from dwml.latex_dict import (CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT
+from dwml.latex_dict import (CHARS,CHR,CHR_BO,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
 	,LIM_FUNC,LIM_TO,LIM_UPP,M)
 
@@ -50,7 +50,7 @@ class oMath2Latex(object):
 		
 
 	def __str__(self):
-		return str(self.get_latex())
+		return str(self.latex)
 
 
 	def call_method(self,elm,s_tag=None):
@@ -93,8 +93,9 @@ class oMath2Latex(object):
 		"""
 		return ''.join(( t for s_tag,t in self.process_children_list(elm,include)))
 
-	def process_chrval(self,elm,chr_match,default=None,with_e=True,store=CHR):
+	def process_chrval(self,elm,chr_match,default=None,with_e=None,store=CHR):
 		"""
+
 		"""
 		val_elm = elm.find(chr_match.format(OMML_NS))
 		latex_s = ''
@@ -107,7 +108,7 @@ class oMath2Latex(object):
 			else:
 				latex_s = default
 		if with_e:	
-			text = self.call_method(elm.find('./{0}e'.format(OMML_NS)))
+			text = self.call_method(elm.find('./{0}{1}'.format(OMML_NS,with_e)))
 			return (latex_s,text)
 		else:
 			return latex_s
@@ -118,8 +119,8 @@ class oMath2Latex(object):
 		"""
 		pass
 
-
-	def get_latex(self):
+	@property
+	def latex(self):
 		return self._latex if PY3 else self._latex.encode('utf-8')
 
 	def do_acc(self,elm):
@@ -127,7 +128,7 @@ class oMath2Latex(object):
 		the accent function
 		"""
 		latex_s,text = self.process_chrval(elm,chr_match='./{0}accPr/{0}chr'
-			,default = CHR_DEFAULT.get('ACC_VAL'))
+			,default = CHR_DEFAULT.get('ACC_VAL'),with_e='e')
 		return latex_s.format(text)
 		
 
@@ -136,7 +137,7 @@ class oMath2Latex(object):
 		the bar function
 		"""
 		latex_s,text = self.process_chrval(elm,chr_match='./{0}barPr/{0}pos'
-			,default = POS_DEFAULT.get('BAR_VAL'),store=POS)
+			,default = POS_DEFAULT.get('BAR_VAL'),store=POS,with_e='e')
 		return latex_s.format(text)		
 
 	def do_box(self,elm):
@@ -150,9 +151,9 @@ class oMath2Latex(object):
 		the delimiter object
 		"""
 		s_val = self.process_chrval(elm,chr_match='./{0}dPr/{0}begChr',
-				default=D_DEFAULT.get('left'),with_e=False)
+				default=D_DEFAULT.get('left'))
 		e_val,text = self.process_chrval(elm,chr_match='./{0}dPr/{0}endChr',
-				default=D_DEFAULT.get('right'))
+				default=D_DEFAULT.get('right'),with_e='e')
 		null = D_DEFAULT.get('null')
 		return D.format(left= null if not s_val else escape_latex(s_val),
 					text=text,
@@ -248,7 +249,7 @@ class oMath2Latex(object):
 		"""
 		the Group-Character object
 		"""
-		latex_s,text = self.process_chrval(elm,chr_match='./{0}groupChrPr/{0}chr')
+		latex_s,text = self.process_chrval(elm,chr_match='./{0}groupChrPr/{0}chr',with_e='e')
 		return latex_s.format(text)
 
 	def do_rad(self,elm):
@@ -325,7 +326,13 @@ class oMath2Latex(object):
 		"""
 		the n-ary object
 		"""
-		pass
+		return self.process_children(elm)
+
+	def do_narypr(self,elm):
+		"""
+		the properties of the n-ary object
+		"""
+		return self.process_chrval(elm,chr_match='./{0}chr',store=CHR_BO)
 
 	def do_e(self,elm):
 		"""
@@ -371,5 +378,7 @@ class oMath2Latex(object):
 		'limUpp' : do_limupp,
 		'lim' : do_lim,
 		'm' : do_m,
-		'mr': do_mr,
+		'mr' : do_mr,
+		'nary' : do_nary,
+		'naryPr' : do_narypr,
  	}
