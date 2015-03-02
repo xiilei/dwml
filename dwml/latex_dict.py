@@ -107,6 +107,10 @@ T = {
 	'\u2197' : r'\nearrow',
 	'\u2198' : r'\searrow',
 	'\u2199' : r'\swarrow',
+	'\u22EE' : r'\vdots',
+	'\u22EF' : r'\cdots',
+	'\u22F0' : r'\adots',
+	'\u22F1' : r'\ddots',
 	#Ordinary symbols
 	'\u221E' : r'\infty',
 }
@@ -155,7 +159,7 @@ F_DEFAULT = r'\frac{{{num}}}{{{den}}}'
 D  = r'\left{left}{text}\right{right}'
 
 D_DEFAULT = {
-	'left':')',
+	'left':'(',
 	'right':')',
 	'null':'.',
 }
@@ -175,3 +179,5 @@ LIM_FUNC = {
 LIM_TO  = (r'\rightarrow',r'\to')
 
 LIM_UPP = r'\overset{{{lim}}}{{{text}}}'
+
+M = r'\begin{{matrix}}{text}\end{{matrix}}'

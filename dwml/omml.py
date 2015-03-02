@@ -13,7 +13,7 @@ from dwml.utils import PY3
 
 from dwml.latex_dict import (CHARS,CHR,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
-	,LIM_FUNC,LIM_TO,LIM_UPP)
+	,LIM_FUNC,LIM_TO,LIM_UPP,M)
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -41,7 +41,7 @@ class NotSupport(Exception):
 
 class oMath2Latex(object):
 	"""
-	
+	Convert oMath element of omml to latex
 	"""
 	_t_dict = T
 
@@ -300,7 +300,26 @@ class oMath2Latex(object):
 		"""
 		the lower limit of the limLow object and the upper limit of the limUpp function
 		"""
-		return self.process_children(elm).replace(LIM_TO[0],LIM_TO[1])
+		return self.process_children(elm).replace(LIM_TO[0],LIM_TO[1])\
+	
+	def do_m(self,elm):
+		"""
+		the Matrix object
+		"""
+		rows = []
+		for s_tag,t in self.process_children_list(elm):
+			if s_tag is 'mPr':
+				pass
+			elif s_tag == 'mr':
+				rows.append(t)
+		return M.format(text='\\\\'.join(rows))
+
+	def do_mr(self,elm):
+		"""
+		a single row of the matrix m
+		"""
+		return '&'.join(
+			[t for s_tag,t in self.process_children_list(elm,include=('e',))])
 
 	def do_nary(self,elm):
 		"""
@@ -351,4 +370,6 @@ class oMath2Latex(object):
 		'limLow' : do_limlow,
 		'limUpp' : do_limupp,
 		'lim' : do_lim,
+		'm' : do_m,
+		'mr': do_mr,
  	}

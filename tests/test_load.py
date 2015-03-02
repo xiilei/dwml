@@ -20,6 +20,10 @@ class TestLoad(unittest.TestCase):
 		for omath in omml.load(PROJECT_ROOT+'/tests/lim.xml'):
 			print(omath)
 
+	def test_load_m(self):
+		for omath in omml.load(PROJECT_ROOT+'/tests/m.xml'):
+			print(omath)
+
 
 
 

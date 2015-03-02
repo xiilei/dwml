@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+<m:oMath xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math">
+	<m:r>
+		<a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1">
+			<a:latin typeface="Cambria Math"/>
+		</a:rPr>
+		<m:t>𝐴</m:t>
+	</m:r>
+	<m:r>
+		<a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1">
+			<a:latin typeface="Cambria Math"/>
+		</a:rPr>
+		<m:t>=</m:t>
+	</m:r>
+	<m:d>
+		<m:dPr>
+			<m:ctrlPr>
+				<a:rPr lang="en-US" altLang="zh-CN" sz="1100" i="1">
+					<a:latin typeface="Cambria Math"/>
+				</a:rPr>
+			</m:ctrlPr>
+		</m:dPr>
+		<m:e>
+			<m:m>
+				<m:mPr>...</m:mPr>
+				<m:mr>
+					<m:e>
+						<m:r>
+							<m:rPr>
+								<m:brk m:alnAt="7"/>
+							</m:rPr>
+							<a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1">
+								<a:solidFill>
+									<a:schemeClr val="tx1"/>
+								</a:solidFill>
+								<a:effectLst/>
+								<a:latin typeface="+mn-lt"/>
+								<a:ea typeface="+mn-ea"/>
+								<a:cs typeface="+mn-cs"/>
+							</a:rPr>
+							<m:t>1</m:t>
+						</m:r>
+					</m:e>
+					<m:e>
+						<m:r>
+							<a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1">
+								<a:solidFill>
+									<a:schemeClr val="tx1"/>
+								</a:solidFill>
+								<a:effectLst/>
+								<a:latin typeface="+mn-lt"/>
+								<a:ea typeface="+mn-ea"/>
+								<a:cs typeface="+mn-cs"/>
+							</a:rPr>
+							<m:t>2</m:t>
+						</m:r>
+					</m:e>
+					<m:e>
+						<m:r>
+							<a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1">
+								<a:solidFill>
+									<a:schemeClr val="tx1"/>
+								</a:solidFill>
+								<a:effectLst/>
+								<a:latin typeface="+mn-lt"/>
+								<a:ea typeface="+mn-ea"/>
+								<a:cs typeface="+mn-cs"/>
+							</a:rPr>
+							<m:t>3</m:t>
+						</m:r>
+					</m:e>
+				</m:mr>
+				<m:mr>
+					<m:e>
+						<m:r>
+							<a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1">
+								<a:solidFill>
+									<a:schemeClr val="tx1"/>
+								</a:solidFill>
+								<a:effectLst/>
+								<a:latin typeface="+mn-lt"/>
+								<a:ea typeface="+mn-ea"/>
+								<a:cs typeface="+mn-cs"/>
+							</a:rPr>
+							<m:t>4</m:t>
+						</m:r>
+					</m:e>
+					<m:e>
+						<m:r>
+							<a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1">
+								<a:solidFill>
+									<a:schemeClr val="tx1"/>
+								</a:solidFill>
+								<a:effectLst/>
+								<a:latin typeface="+mn-lt"/>
+								<a:ea typeface="+mn-ea"/>
+								<a:cs typeface="+mn-cs"/>
+							</a:rPr>
+							<m:t>5</m:t>
+						</m:r>
+					</m:e>
+					<m:e>
+						<m:r>
+							<a:rPr lang="en-US" altLang="zh-CN" sz="1100" b="0" i="1">
+								<a:solidFill>
+									<a:schemeClr val="tx1"/>
+								</a:solidFill>
+								<a:effectLst/>
+								<a:latin typeface="+mn-lt"/>
+								<a:ea typeface="+mn-ea"/>
+								<a:cs typeface="+mn-cs"/>
+							</a:rPr>
+							<m:t>6</m:t>
+						</m:r>
+					</m:e>
+				</m:mr>
+			</m:m>
+		</m:e>
+	</m:d>
+</m:oMath>
+</m:oMathPara>
