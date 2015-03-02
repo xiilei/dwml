@@ -300,7 +300,7 @@ class oMath2Latex(object):
 		"""
 		the lower limit of the limLow object and the upper limit of the limUpp function
 		"""
-		return self.process_children(elm).replace(LIM_TO[0],LIM_TO[1])\
+		return self.process_children(elm).replace(LIM_TO[0],LIM_TO[1])
 	
 	def do_m(self,elm):
 		"""
