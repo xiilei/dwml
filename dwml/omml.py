@@ -39,25 +39,13 @@ class NotSupport(Exception):
 	pass
 
 
-class oMath2Latex(object):
-	"""
-	Convert oMath element of omml to latex
-	"""
-	_t_dict = T
+class Tag2Method(object):
 
-	def __init__(self,element):
-		self._latex = self.process_children(element)
-		
-
-	def __str__(self):
-		return str(self.latex)
-
-
-	def call_method(self,elm,s_tag=None):
+	def call_method(self,elm,stag=None):
 		getmethod = self.tag2meth.get
-		if s_tag is None:
-			s_tag = elm.tag.replace(OMML_NS,'')
-		method = getmethod(s_tag)
+		if stag is None:
+			stag = elm.tag.replace(OMML_NS,'')
+		method = getmethod(stag)
 		if method:
 			return method(self,elm)
 		else:
@@ -68,33 +56,72 @@ class oMath2Latex(object):
 		process children of the elm,return iterable
 		"""		
 		for _e in list(elm):
-			t = ''
 			if (OMML_NS not in _e.tag):
 				continue
-			s_tag = _e.tag.replace(OMML_NS,'')	
-			if include and (s_tag not in include):
+			stag = _e.tag.replace(OMML_NS,'')			
+			if include and (stag not in include):
 				continue
-			_t = self.call_method(_e,s_tag=s_tag)
-			if _t is not None:
-				t = t + _t
-			elif s_tag[-2:] == 'Pr':
-				t = t + self.process_pr(_e)
-			yield (s_tag,t)
-			
+			t = self.call_method(_e,stag=stag)
+			if t is None:
+				t = self.process_unknow(_e,stag)
+				if t is None:
+					continue
+			yield (stag,t,_e)
+
 	def process_children_dict(self,elm,include=None):
 		"""
 		process children of the elm,return dict
 		"""
 		latex_chars = dict()
-		for s_tag,t in self.process_children_list(elm,include):
-			latex_chars[s_tag] = t
+		for stag,t,e in self.process_children_list(elm,include):
+			latex_chars[stag] = t
 		return latex_chars
 
 	def process_children(self,elm,include=None):
 		"""
 		process children of the elm,return string
 		"""
-		return ''.join(( t for s_tag,t in self.process_children_list(elm,include)))
+		return ''.join(( str(t) for stag,t,e in self.process_children_list(elm,include)))
+
+	def process_unknow(self,elm,stag):
+		return None
+
+
+class Pr(Tag2Method):
+	brk = False
+	""" common properties of element"""
+	def __init__(self, elm):
+		self.process_children(elm)
+
+	def __str__(self):
+		return ''
+
+	def do_brk(self,elm):
+		self.brk=True
+
+	tag2meth = {
+		'brk':brk
+	}
+
+
+class oMath2Latex(Tag2Method):
+	"""
+	Convert oMath element of omml to latex
+	"""
+	_t_dict = T
+
+	def __init__(self,element):
+		self._latex = self.process_children(element)
+		
+
+	def __str__(self):
+		return str(self.latex)	
+
+	def process_unknow(self,elm,stag):
+		if 	stag[-2:] == 'Pr':
+			return Pr(elm)
+		else:
+			return None
 
 	def process_chrval(self,elm,chr_match,default=None,with_e=None,store=CHR):
 		"""
@@ -240,8 +267,8 @@ class oMath2Latex(object):
 		the func name
 		"""
 		latex_chars = []
-		for s_tag,t in self.process_children_list(elm):
-			if s_tag == 'r':
+		for stag,t,e in self.process_children_list(elm):
+			if stag == 'r':
 				if FUNC.get(t):
 					latex_chars.append(FUNC[t])
 				else :
@@ -282,7 +309,7 @@ class oMath2Latex(object):
 		the Array object
 		"""
 		return ARR.format(text=BRK.join(
-			[t for s_tag,t in self.process_children_list(elm,include=('e',))]))
+			[t for stag,t,e in self.process_children_list(elm,include=('e',))]))
 
 
 	def do_limlow(self,elm):
@@ -314,10 +341,10 @@ class oMath2Latex(object):
 		the Matrix object
 		"""
 		rows = []
-		for s_tag,t in self.process_children_list(elm):
-			if s_tag is 'mPr':
+		for stag,t,e in self.process_children_list(elm):
+			if stag is 'mPr':
 				pass
-			elif s_tag == 'mr':
+			elif stag == 'mr':
 				rows.append(t)
 		return M.format(text=BRK.join(rows))
 
@@ -326,7 +353,7 @@ class oMath2Latex(object):
 		a single row of the matrix m
 		"""
 		return '&'.join(
-			[t for s_tag,t in self.process_children_list(elm,include=('e',))])
+			[t for stag,t,e in self.process_children_list(elm,include=('e',))])
 
 	def do_nary(self,elm):
 		"""
