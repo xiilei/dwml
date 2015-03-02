@@ -1,3 +1,3 @@
-## dwml - A Python library for reading drawing of spreadsheet documents 
+## dwml - A Python library for reading drawing of Microsoft office (2007 and above),And Convert them to latex
 
-Development
+Under development, documentation add later
