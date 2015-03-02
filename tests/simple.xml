@@ -98,6 +98,7 @@
 	  <m:bar>
 			<m:barPr>
 				<m:pos m:val="top"/>
+				<m:brk/>
 			</m:barPr>
 			<m:e>
 				<m:r>

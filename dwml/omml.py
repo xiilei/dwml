@@ -13,7 +13,7 @@ from dwml.utils import PY3
 
 from dwml.latex_dict import (CHARS,CHR,CHR_BO,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
-	,LIM_FUNC,LIM_TO,LIM_UPP,M)
+	,LIM_FUNC,LIM_TO,LIM_UPP,M,BRK)
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -66,16 +66,19 @@ class oMath2Latex(object):
 	def process_children_list(self,elm,include=None):
 		"""
 		process children of the elm,return iterable
-		"""
+		"""		
 		for _e in list(elm):
+			t = ''
 			if (OMML_NS not in _e.tag):
 				continue
-			s_tag = _e.tag.replace(OMML_NS,'')
+			s_tag = _e.tag.replace(OMML_NS,'')	
 			if include and (s_tag not in include):
 				continue
-			t = self.call_method(_e,s_tag=s_tag)
-			if t is None:
-				continue
+			_t = self.call_method(_e,s_tag=s_tag)
+			if _t is not None:
+				t = t + _t
+			elif s_tag[-2:] == 'Pr':
+				t = t + self.process_pr(_e)
 			yield (s_tag,t)
 			
 	def process_children_dict(self,elm,include=None):
@@ -115,9 +118,12 @@ class oMath2Latex(object):
 
 	def process_pr(self,elm):
 		"""
-		@todo convert brk(Break),aln(Alignment) to latex '\\','&' symbols support
+	    convert brk(Break),aln(Alignment) to latex '\\','&' symbols support
 		"""
-		pass
+		tr = ''
+		if elm.find('./{0}brk') is not None:
+			tr = BRK
+		return tr
 
 	@property
 	def latex(self):
@@ -275,7 +281,7 @@ class oMath2Latex(object):
 		"""
 		the Array object
 		"""
-		return ARR.format(text='\\\\'.join(
+		return ARR.format(text=BRK.join(
 			[t for s_tag,t in self.process_children_list(elm,include=('e',))]))
 
 
@@ -313,7 +319,7 @@ class oMath2Latex(object):
 				pass
 			elif s_tag == 'mr':
 				rows.append(t)
-		return M.format(text='\\\\'.join(rows))
+		return M.format(text=BRK.join(rows))
 
 	def do_mr(self,elm):
 		"""

@@ -148,6 +148,8 @@ FUNC ={
 	'csc'  : r'\csc({fe})',
 }
 
+BRK = '\\\\'
+
 CHR_DEFAULT = {
 	'ACC_VAL':r'\hat{{{0}}}',
 }
