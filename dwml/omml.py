@@ -94,34 +94,35 @@ class Tag2Method(object):
 
 class Pr(Tag2Method):
 
-	brk = None
-
-	chr = None
-
-	pos = None
-
-	begChr = None
-
-	endChr = None
-
-	type = None
+	text = ''
 
 	__val_tags = ('chr','pos','begChr','endChr','type')
 
+	__innerdict= None #can't use the __dict__
+
 	""" common properties of element"""
 	def __init__(self, elm):
-		self.process_children(elm)
+		self.__innerdict={}
+		self.text=self.process_children(elm)
 
 	def __str__(self):
-		return '' if self.brk is None else str(self.brk)
+		return self.text
+
+	def __getattr__(self,name):
+		return self.__innerdict.get(name,None)
+
+	def do_brk(self,elm):
+		self.__innerdict['brk'] = BRK 
+		return BRK
 
 	def do_common(self,elm):
 		stag = elm.tag.replace(OMML_NS,'')
 		if stag in self.__val_tags:
-			self.__dict__[stag] = elm.get('{0}val'.format(OMML_NS))
+			self.__innerdict[stag] = elm.get('{0}val'.format(OMML_NS))
+		return None
 
 	tag2meth = {
-		'brk':do_common,
+		'brk':do_brk,
 		'chr':do_common,
 		'pos':do_common,
 		'begChr':do_common,
@@ -169,18 +170,20 @@ class oMath2Latex(Tag2Method):
 		the bar function
 		"""
 		c_dict = self.process_children_dict(elm)
-		latex_s = get_val(c_dict['barPr'].pos,default=POS_DEFAULT.get('BAR_VAL'),store=POS)
-		return latex_s.format(c_dict['e'])
+		pr = c_dict['barPr']
+		latex_s = get_val(pr.pos,default=POS_DEFAULT.get('BAR_VAL'),store=POS)
+		return pr.text+latex_s.format(c_dict['e'])
 
 	def do_d(self,elm):
 		"""
 		the delimiter object
 		"""
 		c_dict = self.process_children_dict(elm)
-		s_val = get_val(c_dict['dPr'].begChr,default=D_DEFAULT.get('left'),store=None)
-		e_val = get_val(c_dict['dPr'].endChr,default=D_DEFAULT.get('right'),store=None)
+		pr = c_dict['dPr']
+		s_val = get_val(pr.begChr,default=D_DEFAULT.get('left'),store=None)
+		e_val = get_val(pr.endChr,default=D_DEFAULT.get('right'),store=None)
 		null = D_DEFAULT.get('null')
-		return D.format(left= null if not s_val else escape_latex(s_val),
+		return pr.text+D.format(left= null if not s_val else escape_latex(s_val),
 					text=c_dict['e'],
 					right= null if not e_val else  escape_latex(e_val))
 
@@ -204,8 +207,9 @@ class oMath2Latex(Tag2Method):
 		the fraction object
 		"""
 		c_dict = self.process_children_dict(elm)
-		latex_s = get_val(c_dict['fPr'].type,default=F_DEFAULT,store=F)
-		return latex_s.format(num=c_dict.get('num'),den=c_dict.get('den'))
+		pr = c_dict['fPr']
+		latex_s = get_val(pr.type,default=F_DEFAULT,store=F)
+		return pr.text+latex_s.format(num=c_dict.get('num'),den=c_dict.get('den'))
 
 	def do_func(self,elm):
 		"""
@@ -236,8 +240,9 @@ class oMath2Latex(Tag2Method):
 		the Group-Character object
 		"""
 		c_dict = self.process_children_dict(elm)
-		latex_s = get_val(c_dict['groupChrPr'].chr)
-		return latex_s.format(c_dict['e'])
+		pr = c_dict['groupChrPr']
+		latex_s = get_val(pr.chr)
+		return pr.text+latex_s.format(c_dict['e'])
 
 	def do_rad(self,elm):
 		"""
