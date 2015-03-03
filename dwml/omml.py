@@ -9,13 +9,18 @@ try:
 except ImportError:
 	import xml.etree.ElementTree as ET
 
-from dwml.utils import PY3
+from dwml.utils import PY2
+
+if PY2:
+	from dwml.utils import module_to_unicode
+	from dwml import latex_dict
+	module_to_unicode(latex_dict)
 
 from dwml.latex_dict import (CHARS,CHR,CHR_BO,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
-	,LIM_FUNC,LIM_TO,LIM_UPP,M,BRK)
+	,LIM_FUNC,LIM_TO,LIM_UPP,M,BRK,BLANK,BACKSLASH,ALN)
 
-OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
+OMML_NS = u"{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
 
 def load(stream):
@@ -27,12 +32,12 @@ def escape_latex(strs):
 	last = None
 	new_chr = []
 	for c in strs :
-		if (c in CHARS) and (last != '\\'):
-			new_chr.append("\\"+c)
+		if (c in CHARS) and (last !=BACKSLASH):
+			new_chr.append(BACKSLASH+c)
 		else:
 			new_chr.append(c)
 		last = c
-	return ''.join(new_chr)
+	return BLANK.join(new_chr)
 
 def get_val(key,default=None,store=CHR):
 	if key:
@@ -86,7 +91,7 @@ class Tag2Method(object):
 		"""
 		process children of the elm,return string
 		"""
-		return ''.join(( str(t) for stag,t,e in self.process_children_list(elm,include)))
+		return BLANK.join(( t if not isinstance(t,Pr) else str(t) for stag,t,e in self.process_children_list(elm,include)))
 
 	def process_unknow(self,elm,stag):
 		return None
@@ -146,7 +151,7 @@ class oMath2Latex(Tag2Method):
 		self._latex = self.process_children(element)		
 
 	def __str__(self):
-		return self.latex
+		return self.latex if not PY2 else self.latex.encode('utf-8')
 
 	def __unicode__(self):
 		return self.__str__(self)
@@ -161,7 +166,7 @@ class oMath2Latex(Tag2Method):
 
 	@property
 	def latex(self):
-		return self._latex if PY3 else self._latex.encode('utf-8')
+		return self._latex
 
 	def do_acc(self,elm):
 		"""
@@ -239,7 +244,7 @@ class oMath2Latex(Tag2Method):
 			else:
 				latex_chars.append(t)
 		latex_chars.append('{fe}') #do_func will replace this
-		return ''.join(latex_chars)
+		return BLANK.join(latex_chars)
 
 	def do_groupchr(self,elm):
 		"""
@@ -310,7 +315,7 @@ class oMath2Latex(Tag2Method):
 		"""
 		a single row of the matrix m
 		"""
-		return '&'.join(
+		return ALN.join(
 			[t for stag,t,e in self.process_children_list(elm,include=('e',))])
 
 	def do_nary(self,elm):
@@ -324,7 +329,7 @@ class oMath2Latex(Tag2Method):
 				bo = get_val(t.chr,store=CHR_BO)
 			else :
 				res.append(t)
-		return bo+''.join(res)
+		return bo+BLANK.join(res)
 
 	def do_r(self,elm):
 		"""
@@ -335,7 +340,7 @@ class oMath2Latex(Tag2Method):
 		_str = []
 		for s in elm.findtext('./{0}t'.format(OMML_NS)):
 			_str.append(self._t_dict.get(s,s))
-		return escape_latex(''.join(_str))
+		return escape_latex(BLANK.join(_str))
 
 	tag2meth={
 		'acc' : do_acc,
