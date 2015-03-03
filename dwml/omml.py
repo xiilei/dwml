@@ -34,6 +34,11 @@ def escape_latex(strs):
 		last = c
 	return ''.join(new_chr)
 
+def get_val(key,default=None,store=CHR):
+	if key:
+		return key if not store else store.get(key,key)
+	else:
+		return default
 
 class NotSupport(Exception):
 	pass
@@ -88,19 +93,40 @@ class Tag2Method(object):
 
 
 class Pr(Tag2Method):
-	brk = False
+
+	brk = None
+
+	chr = None
+
+	pos = None
+
+	begChr = None
+
+	endChr = None
+
+	type = None
+
+	__val_tags = ('chr','pos','begChr','endChr','type')
+
 	""" common properties of element"""
 	def __init__(self, elm):
 		self.process_children(elm)
 
 	def __str__(self):
-		return ''
+		return '' if self.brk is None else str(self.brk)
 
-	def do_brk(self,elm):
-		self.brk=True
-
+	def do_common(self,elm):
+		stag = elm.tag.replace(OMML_NS,'')
+		if stag in self.__val_tags:
+			self.__dict__[stag] = elm.get('{0}val'.format(OMML_NS))
+			
 	tag2meth = {
-		'brk':brk
+		'brk':do_common,
+		'chr':do_common,
+		'pos':do_common,
+		'begChr':do_common,
+		'endChr':do_common,
+		'type':do_common,
 	}
 
 
@@ -110,9 +136,10 @@ class oMath2Latex(Tag2Method):
 	"""
 	_t_dict = T
 
+	__direct_tags = ('box','sSub','sSup','sSubSup','num','den','deg','e')
+
 	def __init__(self,element):
-		self._latex = self.process_children(element)
-		
+		self._latex = self.process_children(element)		
 
 	def __str__(self):
 		return str(self.latex)	
@@ -120,37 +147,10 @@ class oMath2Latex(Tag2Method):
 	def process_unknow(self,elm,stag):
 		if 	stag[-2:] == 'Pr':
 			return Pr(elm)
+		elif stag in self.__direct_tags:
+			return self.process_children(elm)
 		else:
 			return None
-
-	def process_chrval(self,elm,chr_match,default=None,with_e=None,store=CHR):
-		"""
-
-		"""
-		val_elm = elm.find(chr_match.format(OMML_NS))
-		latex_s = ''
-		if val_elm is None:
-			latex_s = default
-		else:
-			char_val= val_elm.get('{0}val'.format(OMML_NS))
-			if char_val is not None:
-				latex_s = store.get(char_val,char_val)
-			else:
-				latex_s = default
-		if with_e:	
-			text = self.call_method(elm.find('./{0}{1}'.format(OMML_NS,with_e)))
-			return (latex_s,text)
-		else:
-			return latex_s
-
-	def process_pr(self,elm):
-		"""
-	    convert brk(Break),aln(Alignment) to latex '\\','&' symbols support
-		"""
-		tr = ''
-		if elm.find('./{0}brk') is not None:
-			tr = BRK
-		return tr
 
 	@property
 	def latex(self):
@@ -160,36 +160,28 @@ class oMath2Latex(Tag2Method):
 		"""
 		the accent function
 		"""
-		latex_s,text = self.process_chrval(elm,chr_match='./{0}accPr/{0}chr'
-			,default = CHR_DEFAULT.get('ACC_VAL'),with_e='e')
-		return latex_s.format(text)
-		
+		c_dict = self.process_children_dict(elm)
+		latex_s = get_val(c_dict['accPr'].chr,default=CHR_DEFAULT.get('ACC_VAL'),store=CHR)
+		return latex_s.format(c_dict['e'])		
 
 	def do_bar(self,elm):
 		"""
 		the bar function
 		"""
-		latex_s,text = self.process_chrval(elm,chr_match='./{0}barPr/{0}pos'
-			,default = POS_DEFAULT.get('BAR_VAL'),store=POS,with_e='e')
-		return latex_s.format(text)		
-
-	def do_box(self,elm):
-		"""
-		the box object
-		"""
-		return self.process_children(elm)
+		c_dict = self.process_children_dict(elm)
+		latex_s = get_val(c_dict['barPr'].pos,default=POS_DEFAULT.get('BAR_VAL'),store=POS)
+		return latex_s.format(c_dict['e'])
 
 	def do_d(self,elm):
 		"""
 		the delimiter object
 		"""
-		s_val = self.process_chrval(elm,chr_match='./{0}dPr/{0}begChr',
-				default=D_DEFAULT.get('left'))
-		e_val,text = self.process_chrval(elm,chr_match='./{0}dPr/{0}endChr',
-				default=D_DEFAULT.get('right'),with_e='e')
+		c_dict = self.process_children_dict(elm)
+		s_val = get_val(c_dict['dPr'].begChr,default=D_DEFAULT.get('left'),store=None)
+		e_val = get_val(c_dict['dPr'].endChr,default=D_DEFAULT.get('right'),store=None)
 		null = D_DEFAULT.get('null')
 		return D.format(left= null if not s_val else escape_latex(s_val),
-					text=text,
+					text=c_dict['e'],
 					right= null if not e_val else  escape_latex(e_val))
 
 
@@ -198,24 +190,6 @@ class oMath2Latex(Tag2Method):
 		the Pre-Sub-Superscript object -- Not support yet
 		"""
 		pass
-
-	def do_ssub(self,elm):
-		"""
-		the subscript object
-		"""
-		return self.process_children(elm)
-
-	def do_ssup(self,elm):
-		"""
-		the supscript object
-		"""
-		return self.process_children(elm)
-
-	def do_ssubsup(self,elm):
-		"""
-		the sub-superscript object
-		"""
-		return self.process_children(elm)
 
 	def do_sub(self,elm):
 		text = self.process_children(elm)
@@ -230,29 +204,8 @@ class oMath2Latex(Tag2Method):
 		the fraction object
 		"""
 		c_dict = self.process_children_dict(elm)
-		latex_s = c_dict.get('fPr',F_DEFAULT)
+		latex_s = get_val(c_dict['fPr'].type,default=F_DEFAULT,store=F)
 		return latex_s.format(num=c_dict.get('num'),den=c_dict.get('den'))
-
-	def do_fpr(self,elm):
-		type_elm = elm.find('./{0}type'.format(OMML_NS))
-		if type_elm is not None:
-			val = type_elm.get('{0}val'.format(OMML_NS))
-			if val is not None:
-				return F.get(val,F_DEFAULT)
-		return F_DEFAULT
-
-	def do_num(self,elm):
-		"""
-		the numerator
-		"""
-		return self.process_children(elm)
-
-	def do_den(self,elm):
-		"""
-		the denominator
-		"""
-		return self.process_children(elm)
-
 
 	def do_func(self,elm):
 		"""
@@ -282,8 +235,9 @@ class oMath2Latex(Tag2Method):
 		"""
 		the Group-Character object
 		"""
-		latex_s,text = self.process_chrval(elm,chr_match='./{0}groupChrPr/{0}chr',with_e='e')
-		return latex_s.format(text)
+		c_dict = self.process_children_dict(elm)
+		latex_s = get_val(c_dict['groupChrPr'].chr)
+		return latex_s.format(c_dict['e'])
 
 	def do_rad(self,elm):
 		"""
@@ -297,13 +251,6 @@ class oMath2Latex(Tag2Method):
 		else:
 			return RAD_DEFAULT.format(text=text)
 			
-
-	def do_deg(self,elm):
-		"""
-		the degree in the mathematical radical
-		"""
-		return self.process_children(elm)		
-
 	def do_eqarr(self,elm):
 		"""
 		the Array object
@@ -359,19 +306,14 @@ class oMath2Latex(Tag2Method):
 		"""
 		the n-ary object
 		"""
-		return self.process_children(elm)
-
-	def do_narypr(self,elm):
-		"""
-		the properties of the n-ary object
-		"""
-		return self.process_chrval(elm,chr_match='./{0}chr',store=CHR_BO)
-
-	def do_e(self,elm):
-		"""
-		the "element object" has more unknown elements,so process all children of it
-		"""
-		return self.process_children(elm)
+		res = []
+		bo = ''
+		for stag,t,e in self.process_children_list(elm):
+			if stag == 'naryPr':
+				bo = get_val(t.chr,store=CHR_BO)
+			else :
+				res.append(t)
+		return bo+''.join(res)
 
 	def do_r(self,elm):
 		"""
@@ -384,28 +326,18 @@ class oMath2Latex(Tag2Method):
 			_str.append(self._t_dict.get(s,s))
 		return escape_latex(''.join(_str))
 
-	#@todo restructure
 	tag2meth={
 		'acc' : do_acc,
-		'e' : do_e,
 		'r' : do_r,
 		'bar' : do_bar,
-		'box' : do_box,
 		'sub' : do_sub,
 		'sup' : do_sup,
-		'sSub' : do_ssub,
-		'sSup' : do_ssup,
-		'sSubSup' : do_ssubsup,
 		'f'   : do_f,
-		'num' : do_num,
-		'den' : do_den,
 		'func': do_func,
-		'fPr' : do_fpr,
 		'fName' : do_fname,
 		'groupChr' : do_groupchr,
 		'd' : do_d,
 		'rad' : do_rad,
-		'deg' : do_deg,
 		'eqArr' : do_eqarr,
 		'limLow' : do_limlow,
 		'limUpp' : do_limupp,
@@ -413,5 +345,4 @@ class oMath2Latex(Tag2Method):
 		'm' : do_m,
 		'mr' : do_mr,
 		'nary' : do_nary,
-		'naryPr' : do_narypr,
  	}

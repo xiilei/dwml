@@ -97,7 +97,7 @@
 	  </m:eqArr>
 	  <m:bar>
 			<m:barPr>
-				<m:pos m:val="top"/>
+				<m:pos m:val="bot"/>
 				<m:brk/>
 			</m:barPr>
 			<m:e>
