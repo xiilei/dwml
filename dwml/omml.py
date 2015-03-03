@@ -119,7 +119,7 @@ class Pr(Tag2Method):
 		stag = elm.tag.replace(OMML_NS,'')
 		if stag in self.__val_tags:
 			self.__dict__[stag] = elm.get('{0}val'.format(OMML_NS))
-			
+
 	tag2meth = {
 		'brk':do_common,
 		'chr':do_common,
@@ -144,11 +144,11 @@ class oMath2Latex(Tag2Method):
 	def __str__(self):
 		return str(self.latex)	
 
-	def process_unknow(self,elm,stag):
-		if 	stag[-2:] == 'Pr':
-			return Pr(elm)
-		elif stag in self.__direct_tags:
+	def process_unknow(self,elm,stag):			
+		if stag in self.__direct_tags:
 			return self.process_children(elm)
+		elif stag[-2:] == 'Pr':
+			return Pr(elm)
 		else:
 			return None
 
