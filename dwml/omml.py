@@ -108,6 +108,9 @@ class Pr(Tag2Method):
 	def __str__(self):
 		return self.text
 
+	def __unicode__(self):
+		return self.__str__(self)
+
 	def __getattr__(self,name):
 		return self.__innerdict.get(name,None)
 
@@ -143,7 +146,10 @@ class oMath2Latex(Tag2Method):
 		self._latex = self.process_children(element)		
 
 	def __str__(self):
-		return str(self.latex)	
+		return self.latex
+
+	def __unicode__(self):
+		return self.__str__(self)
 
 	def process_unknow(self,elm,stag):			
 		if stag in self.__direct_tags:
