@@ -151,6 +151,8 @@ FUNC ={
 	'csc'  : r'\csc({fe})',
 }
 
+FUNC_PLACE = '{fe}'
+
 BRK = '\\\\'
 
 CHR_DEFAULT = {

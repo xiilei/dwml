@@ -10,7 +10,7 @@ class TestLoad(unittest.TestCase):
 
 	def test_load_ml(self):
 		latex_results = [
-		r'\sin(\sqrt[3]{x})\sqrt[3]{x}^{x^{11}}/_{b}x_{m}^{n}',
+		r'\sin(\sqrt[3]{x})^{x^{11}}/_{b}x_{m}^{n}',
 		r'\tilde{a}\begin{array}{c}a=b+c\\d+e=f\end{array}\\\underline{cdef}']
 		i = 0	
 		for omath in omml.load(PROJECT_ROOT+'/tests/simple.xml'):

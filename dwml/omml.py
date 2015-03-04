@@ -19,7 +19,7 @@ if PY2:
 
 from dwml.latex_dict import (CHARS,CHR,CHR_BO,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
-	,LIM_FUNC,LIM_TO,LIM_UPP,M,BRK,BLANK,BACKSLASH,ALN)
+	,LIM_FUNC,LIM_TO,LIM_UPP,M,BRK,BLANK,BACKSLASH,ALN,FUNC_PLACE)
 
 OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
@@ -232,7 +232,7 @@ class oMath2Latex(Tag2Method):
 		"""
 		c_dict = self.process_children_dict(elm)
 		func_name = c_dict.get('fName')
-		return func_name.replace('{fe}',c_dict.get('e'))
+		return func_name.replace(FUNC_PLACE,c_dict.get('e'))
 
 	def do_fname(self,elm):
 		"""
@@ -247,8 +247,8 @@ class oMath2Latex(Tag2Method):
 					raise NotSupport("Not support func %s" % t)
 			else:
 				latex_chars.append(t)
-		latex_chars.append('{fe}') #do_func will replace this
-		return BLANK.join(latex_chars)
+		t = BLANK.join(latex_chars)
+		return t if FUNC_PLACE in t else t+FUNC_PLACE #do_func will replace this
 
 	def do_groupchr(self,elm):
 		"""
