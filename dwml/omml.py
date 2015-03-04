@@ -92,7 +92,8 @@ class Tag2Method(object):
 		"""
 		process children of the elm,return string
 		"""
-		return BLANK.join(( t if not isinstance(t,Pr) else str(t) for stag,t,e in self.process_children_list(elm,include)))
+		return BLANK.join(( t if not isinstance(t,Tag2Method) else str(t) 
+			for stag,t,e in self.process_children_list(elm,include)))
 
 	def process_unknow(self,elm,stag):
 		return None
