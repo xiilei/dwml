@@ -12,6 +12,7 @@ except ImportError:
 from dwml.utils import PY2
 
 if PY2:
+	#Fix UnicodeEncodeError in Python2.7
 	from dwml.utils import module_to_unicode
 	from dwml import latex_dict
 	module_to_unicode(latex_dict)
@@ -20,7 +21,7 @@ from dwml.latex_dict import (CHARS,CHR,CHR_BO,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
 	,LIM_FUNC,LIM_TO,LIM_UPP,M,BRK,BLANK,BACKSLASH,ALN)
 
-OMML_NS = u"{http://schemas.openxmlformats.org/officeDocument/2006/math}"
+OMML_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
 
 
 def load(stream):
@@ -39,8 +40,8 @@ def escape_latex(strs):
 		last = c
 	return BLANK.join(new_chr)
 
-def get_val(key,default=None,store=CHR):
-	if key:
+def get_val(key,default=None,store=CHR):	
+	if key:		
 		return key if not store else store.get(key,key)
 	else:
 		return default
@@ -126,7 +127,10 @@ class Pr(Tag2Method):
 	def do_common(self,elm):
 		stag = elm.tag.replace(OMML_NS,'')
 		if stag in self.__val_tags:
-			self.__innerdict[stag] = elm.get('{0}val'.format(OMML_NS))
+			t = elm.get('{0}val'.format(OMML_NS))
+			if PY2 and (t != None):			
+				t = t if isinstance(t,unicode) else unicode(t,'utf-8')
+			self.__innerdict[stag] = t
 		return None
 
 	tag2meth = {
@@ -151,7 +155,7 @@ class oMath2Latex(Tag2Method):
 		self._latex = self.process_children(element)		
 
 	def __str__(self):
-		return self.latex if not PY2 else self.latex.encode('utf-8')
+		return self.latex
 
 	def __unicode__(self):
 		return self.__str__(self)
@@ -166,7 +170,7 @@ class oMath2Latex(Tag2Method):
 
 	@property
 	def latex(self):
-		return self._latex
+		return self._latex if not PY2 else self._latex.encode('utf-8') 
 
 	def do_acc(self,elm):
 		"""
@@ -339,6 +343,7 @@ class oMath2Latex(Tag2Method):
 		"""
 		_str = []
 		for s in elm.findtext('./{0}t'.format(OMML_NS)):
+			#s = s if isinstance(s,unicode) else unicode(s,'utf-8')
 			_str.append(self._t_dict.get(s,s))
 		return escape_latex(BLANK.join(_str))
 

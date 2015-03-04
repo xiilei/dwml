@@ -16,7 +16,8 @@ def module_to_unicode(module,charset='utf-8'):
 		elif isinstance(attrs[n],dict):
 			new_dict = dict()
 			for k in attrs[n]:
-				new_dict[unicode(k,charset)]  = unicode(attrs[n][k],charset)
+				k = k if isinstance(k,unicode) else unicode(k,'utf-8')				
+				new_dict[k]  = unicode(attrs[n][k],charset)
 			attrs[n] = new_dict
 		elif isinstance(attrs[n] ,list):
 			new_list = list()
