@@ -13,7 +13,7 @@ setup(
 	author='xilei',
 	author_email='xilei125@163.com',
 	packages=['dwml'],
-	keywords=['word','execl','omml','latex'],
+	keywords=['word','excel','omml','latex'],
 	classifiers=[
 		'Development Status :: 3 - Alpha Development Status',
 		'Programming Language :: Python :: 2.7',

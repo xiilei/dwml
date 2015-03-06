@@ -3,12 +3,7 @@
 """
 Office Math Markup Language (OMML)
 """
-
-try:
-	import lxml.etree as ET # It's faster than 'xml.etree.ElementTree' in CPython
-except ImportError:
-	import xml.etree.ElementTree as ET
-
+from dwml import ET,NotSupport
 from dwml.utils import PY2
 
 if PY2:
@@ -45,9 +40,6 @@ def get_val(key,default=None,store=CHR):
 		return key if not store else store.get(key,key)
 	else:
 		return default
-
-class NotSupport(Exception):
-	pass
 
 
 class Tag2Method(object):
