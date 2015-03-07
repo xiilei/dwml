@@ -6,7 +6,7 @@ try:
 except ImportError:
 	import xml.etree.ElementTree as ET
 
-__VERSION__ = '0.1-alpha'
+__version__ = '0.1-alpha'
 
 class NotSupport(Exception):
 	"""

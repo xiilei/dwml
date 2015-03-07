@@ -2,12 +2,12 @@
 
 from setuptools import setup
 
-from dwml import __VERSION__
+from dwml import __version__
 
 
 setup(
 	name='dwml',
-	version=__VERSION__,
+	version=__version__,
 	license='http://www.apache.org/licenses/LICENSE-2.0',
 	description='read drawing of Ms-office (2007 and above,omml,picture),And Convert them to latex',
 	author='xilei',
