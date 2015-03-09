@@ -10,15 +10,13 @@ from dwml import ET
 #execl drawing namespace
 XLSX_NS = '{http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing}' 
 
-class XlsxDrawing(object):
+class Xlsx(object):
 	"""
 	the drawing object of Spreadsheet	
 	"""
-
-	def __init__(self):
-		pass
-
-class DocxDrawing(object):
+	pass
+	
+class Docx(object):
 	"""
 	the drawing object of Wordprocessing
 	"""

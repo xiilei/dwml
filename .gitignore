@@ -54,3 +54,5 @@ docs/_build/
 target/
 
 # temp test files
+tests/*-test.docx
+tests/*-test.xlsx
