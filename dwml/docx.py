@@ -35,7 +35,7 @@ TEXT = '<w:r><w:t> {0} </w:t></w:r>'
 
 omath_re = re.compile(r"<m:omath>.*?</m:omath>",re.IGNORECASE)
 
-def to_latex(filename):
+def to_latex(filename,repl='{0}'):
 	"""
 	light convert omml to latex from word file (will be changed)
 	"""
@@ -46,12 +46,12 @@ def to_latex(filename):
 	zf = zipfile.ZipFile(filename,mode='a')
 	doc_stream = zf.open('word/document.xml')
 	all_xml = doc_stream.read()	
-	t = omath_re.sub(_latex_fn,all_xml.decode('utf-8'))
+	t = omath_re.sub( lambda m:_latex_fn(m,repl),all_xml.decode('utf-8'))
 	zf.writestr('word/document.xml',t.encode('utf-8'))
 	zf.close()
 
 
-def _latex_fn(mathobj):
+def _latex_fn(mathobj,f):
 	if PY2:
 		s = mathobj.group(0)
 		dr = unicode(DOCXML_ROOT,'utf-8')
@@ -60,6 +60,6 @@ def _latex_fn(mathobj):
 		xml_str = DOCXML_ROOT.format(mathobj.group(0))
 	fileobj = StringIO(xml_str)
 	for omath in omml.load(fileobj):
-		u = TEXT.replace('{0}',omath.latex)
+		u = TEXT.replace('{0}',f.format(omath.latex))
 		return u if not PY2 else unicode(u,'utf-8')
 	return None

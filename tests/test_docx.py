@@ -11,7 +11,7 @@ class TestDocx(unittest.TestCase):
 		src = PROJECT_ROOT+'/tests/simple.docx'
 		dst = PROJECT_ROOT+'/tests/simple-test.docx'
 		shutil.copyfile(src=src, dst=dst)
-		to_latex(dst)
+		to_latex(dst,repl='[latex]{0}[/latex]')
 
 
 if __name__ == '__main__':
