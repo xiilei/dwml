@@ -52,14 +52,11 @@ def to_latex(filename,repl='{0}'):
 
 
 def _latex_fn(mathobj,f):
-	if PY2:
-		s = mathobj.group(0)
-		dr = unicode(DOCXML_ROOT,'utf-8')
-		xml_str = dr.format(s)
-	else:
-		xml_str = DOCXML_ROOT.format(mathobj.group(0))
-	fileobj = StringIO(xml_str)
-	for omath in omml.load(fileobj):
+	dr = DOCXML_ROOT if not PY2 else unicode(DOCXML_ROOT,'utf-8')
+	xml_str = dr.format(mathobj.group(0))
+	stream = StringIO(xml_str)
+	for omath in omml.load(stream):
 		u = TEXT.replace('{0}',f.format(omath.latex))
+		stream.close()
 		return u if not PY2 else unicode(u,'utf-8')
 	return None
