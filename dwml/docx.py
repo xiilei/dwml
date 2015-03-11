@@ -3,13 +3,8 @@
 import re
 import zipfile
 
-from dwml import ET,omml
+from dwml import omml
 from dwml.utils import PY2
-
-try:
-	from io import StringIO
-except:
-	from StringIO import StringIO
 
 
 DOCXML_ROOT = ''.join(('<w:document '
@@ -54,9 +49,7 @@ def to_latex(filename,repl='{0}'):
 def _latex_fn(mathobj,f):
 	dr = DOCXML_ROOT if not PY2 else unicode(DOCXML_ROOT,'utf-8')
 	xml_str = dr.format(mathobj.group(0))
-	stream = StringIO(xml_str)
-	for omath in omml.load(stream):
+	for omath in omml.load_string(xml_str):
 		u = TEXT.replace('{0}',f.format(omath.latex))
-		stream.close()
 		return u if not PY2 else unicode(u,'utf-8')
 	return None

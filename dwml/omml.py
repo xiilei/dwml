@@ -24,6 +24,11 @@ def load(stream):
 	for omath in tree.findall(OMML_NS+'oMath'):
 		yield oMath2Latex(omath)
 
+def load_string(string):
+	root = ET.fromstring(string)
+	for omath in root.findall(OMML_NS+'oMath'):
+		yield oMath2Latex(omath)
+
 def escape_latex(strs):
 	last = None
 	new_chr = []
