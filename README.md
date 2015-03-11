@@ -1,4 +1,4 @@
-## dwml - A Python library for reading DrawingMl of Microsoft office (2007 and above),And Convert them to latex
+## dwml - A Python library for reading DrawingML of Microsoft office (2007 and above),And Convert them to latex
 
  Usage
 =======
