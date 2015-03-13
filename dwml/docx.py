@@ -6,9 +6,8 @@ import zipfile
 from dwml import omml
 from dwml.utils import PY2
 
-
 DOCXML_ROOT = ''.join(('<w:document '
-			,'xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"'
+			,'xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" '
 			,'xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" '
 			,'xmlns:o="urn:schemas-microsoft-com:office:office" '
 			,'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" '
@@ -41,15 +40,12 @@ def to_latex(filename,repl='{0}'):
 	zf = zipfile.ZipFile(filename,mode='a')
 	doc_stream = zf.open('word/document.xml')
 	all_xml = doc_stream.read()	
-	t = omath_re.sub( lambda m:_latex_fn(m,repl),all_xml.decode('utf-8'))
-	zf.writestr('word/document.xml',t.encode('utf-8'))
+	t = omath_re.sub( lambda m:_latex_fn(m,repl),all_xml if PY2 else all_xml.decode('utf-8'))
+	zf.writestr('word/document.xml',t)
 	zf.close()
 
-
 def _latex_fn(mathobj,f):
-	dr = DOCXML_ROOT if not PY2 else unicode(DOCXML_ROOT,'utf-8')
-	xml_str = dr.format(mathobj.group(0))
+	xml_str = DOCXML_ROOT.format(mathobj.group(0))
 	for omath in omml.load_string(xml_str):
-		u = TEXT.replace('{0}',f.format(omath.latex))
-		return u if not PY2 else unicode(u,'utf-8')
+		return TEXT.replace('{0}',f.format(omath.latex))
 	return None
