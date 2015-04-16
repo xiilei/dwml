@@ -19,7 +19,7 @@ class TestLoad(unittest.TestCase):
 
 	def test_load_group(self):
 		latex_results = [
-			r'𝐴\overbrace{123}\underbrace{456}=\left\{a+b\right)'
+			r'A\overbrace{123}\underbrace{456}=\left\{a+b\right)'
 		]
 		i=0
 		for omath in omml.load(PROJECT_ROOT+'/tests/group.xml'):
@@ -28,7 +28,7 @@ class TestLoad(unittest.TestCase):
 
 	def test_load_lim(self):
 		latex_results = [
-			r'𝐴=log_{𝑥}𝑦\max_{0≤𝑥≤1}𝑥𝑒^{−𝑥^{2}}\lim_{1\to\infty}𝑎\overset{def}{=}x'
+			r'A=log_{x}y\max_{0≤x≤1}xe^{−x^{2}}\lim_{1\to \infty }a\overset{def}{=}x'
 		]
 		i=0
 		for omath in omml.load(PROJECT_ROOT+'/tests/lim.xml'):
@@ -37,7 +37,7 @@ class TestLoad(unittest.TestCase):
 
 	def test_load_m(self):
 		latex_results = [
-			r'𝐴=\left(\begin{matrix}1&2&3\\4&5&6\end{matrix}\right)\sum_{1}^{20}x'
+			r'A=\left(\begin{matrix}1&2&3\\4&5&6\end{matrix}\right)\sum_{1}^{20}x'
 		]
 		i=0
 		for omath in omml.load(PROJECT_ROOT+'/tests/m.xml'):
