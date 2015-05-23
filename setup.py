@@ -14,7 +14,6 @@ setup(
 	author_email='xilei125@163.com',
 	packages=['dwml'],
 	keywords=['word','excel','omml','latex'],
-	test_suite = 'tests',
 	classifiers=[
 		'Development Status :: 3 - Alpha Development Status',
 		'Programming Language :: Python :: 2.7',
