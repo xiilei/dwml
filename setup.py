@@ -1,9 +1,24 @@
 # -*- coding: utf-8 -*-
 
-from setuptools import setup
+from setuptools import setup,Command
 
 from dwml import __version__
 
+class TestCommand(Command):
+	user_options = []
+
+	def initialize_options(self):
+		pass
+
+	def finalize_options(self):
+		pass
+
+	def run(self):
+		import sys, subprocess
+		raise SystemExit(
+		    subprocess.call([sys.executable,
+		                     '-Wd',
+		                     'tests/test_load.py']))
 
 setup(
 	name='dwml',
@@ -22,6 +37,6 @@ setup(
 		'Programming Language :: Python :: 3.4',
 		'Programming Language :: Python :: Implementation :: CPython',
 		'Programming Language :: Python :: Implementation :: PyPy',
-	]
-
-)
+	],
+	cmdclass=dict(test=TestCommand)
+	)
