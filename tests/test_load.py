@@ -43,6 +43,8 @@ class TestLoad(unittest.TestCase):
 		for omath in omml.load(PROJECT_ROOT+'/tests/m.xml'):
 			self.assertEqual(omath.latex,latex_results[i])
 			i=i+1
+	def test_escape(self):
+		self.assertEqual(omml.escape_latex(r'\\\\\\'),'\\\\\\')
 
 
 

@@ -32,6 +32,7 @@ def load_string(string):
 def escape_latex(strs):
 	last = None
 	new_chr = []
+	strs = strs.replace(r'\\','\\')
 	for c in strs :
 		if (c in CHARS) and (last !=BACKSLASH):
 			new_chr.append(BACKSLASH+c)
