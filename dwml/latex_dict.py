@@ -61,7 +61,6 @@ CHR = {
 	u'\u23b5' : r'\underbracket{{{0}}}',
 	u'\u23dd' : r'\underparen{{{0}}}',
 	u'\u23df' : r'\underbrace{{{0}}}',
-
 }
 
 CHR_BO = {
@@ -133,6 +132,9 @@ T = {
 	u'\u22f1' : r'\ddots ',
 	#Ordinary symbols
 	u'\u221e' : r'\infty ',
+	#Binary relations
+	u'\u00b1' : r'\pm',
+	u'\u2213' : r'\mp',
 	#Italic, Latin, uppercase
 	u'\U0001d434' : 'A',
 	u'\U0001d435' : 'B',
