@@ -3,7 +3,7 @@ import shutil
 import unittest
 
 from base import PROJECT_ROOT
-from dwml.docx import to_latex
+from docx import to_latex
 
 class TestDocx(unittest.TestCase):
 
