@@ -9,7 +9,7 @@ for omath in omml.load('tests/composite.xml'):
     print(omath.latex)
 ```
 
-#### [A sample](https://github.com/xiilei/dwml/blob/master/tests/docx.py) for converting word omml to latex 
+#### [A sample](https://github.com/xiilei/dwml/blob/master/tests/docx.py) for converting word formula to latex 
 
 ```python
 from dwml.docx import to_latex
