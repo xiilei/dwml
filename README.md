@@ -12,6 +12,6 @@ for omath in omml.load('tests/composite.xml'):
 #### [A sample](https://github.com/xiilei/dwml/blob/master/tests/docx.py) for converting word formula to latex 
 
 ```python
-from dwml.docx import to_latex
+from tests.docx import to_latex
 to_latex(filename='tests/simple.docx')
 ```
