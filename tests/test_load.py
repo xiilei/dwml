@@ -19,7 +19,7 @@ class TestLoad(unittest.TestCase):
 
 	def test_load_group(self):
 		latex_results = [
-			r'A\overbrace{123}\underbrace{456}=\left\{a+b\right)'
+			r'A\overbrace{123}\underbrace{456}=\left\{a+b\right.'
 		]
 		i=0
 		for omath in omml.load(PROJECT_ROOT+'/tests/group.xml'):
@@ -43,8 +43,18 @@ class TestLoad(unittest.TestCase):
 		for omath in omml.load(PROJECT_ROOT+'/tests/m.xml'):
 			self.assertEqual(omath.latex,latex_results[i])
 			i=i+1
+	def test_load_d(self):
+		latex_results = [
+			r'\left\{\begin{array}{c}m+1≤2m-1\\m+1>5\end{array}\right.'
+		]
+		i=0
+		for omath in omml.load(PROJECT_ROOT+'/tests/d.xml'):
+			self.assertEqual(omath.latex,latex_results[i])
+			i=i+1
 	def test_escape(self):
 		self.assertEqual(omml.escape_latex(r'\\\\\\'),'\\\\\\')
+
+
 
 
 

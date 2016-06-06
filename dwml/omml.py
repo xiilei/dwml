@@ -194,8 +194,11 @@ class oMath2Latex(Tag2Method):
 		"""
 		c_dict = self.process_children_dict(elm)
 		pr = c_dict['dPr']
-		s_val = get_val(pr.begChr,default=D_DEFAULT.get('left'),store=None)
-		e_val = get_val(pr.endChr,default=D_DEFAULT.get('right'),store=None)
+		s_val = get_val(pr.begChr,store=None)
+		e_val = get_val(pr.endChr,store=None)
+		if not s_val and not e_val:
+			s_val = D_DEFAULT.get('left')
+			e_val = D_DEFAULT.get('right')
 		null = D_DEFAULT.get('null')
 		return pr.text+D.format(left= null if not s_val else escape_latex(s_val),
 					text=c_dict['e'],
