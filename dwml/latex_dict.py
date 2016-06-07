@@ -147,8 +147,8 @@ T = {
 	#Ordinary symbols
 	u'\u221e' : r'\infty ',
 	#Binary relations
-	u'\u00b1' : r'\pm',
-	u'\u2213' : r'\mp',
+	u'\u00b1' : r'\pm ',
+	u'\u2213' : r'\mp ',
 	#Italic, Latin, uppercase
 	u'\U0001d434' : 'A',
 	u'\U0001d435' : 'B',
