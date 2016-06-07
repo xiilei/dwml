@@ -194,8 +194,8 @@ class oMath2Latex(Tag2Method):
 		"""
 		c_dict = self.process_children_dict(elm)
 		pr = c_dict['dPr']
-		s_val = get_val(pr.begChr,store=None)
-		e_val = get_val(pr.endChr,store=None)
+		s_val = get_val(pr.begChr,store=T)
+		e_val = get_val(pr.endChr,store=T)
 		if not s_val and not e_val:
 			s_val = D_DEFAULT.get('left')
 			e_val = D_DEFAULT.get('right')

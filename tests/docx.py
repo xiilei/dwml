@@ -5,6 +5,7 @@ import zipfile
 
 from dwml import omml
 from dwml.utils import PY2
+from xml.sax.saxutils import escape
 
 DOCXML_ROOT = ''.join(('<w:document '
 			,'xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" '
@@ -47,5 +48,5 @@ def to_latex(filename,repl='{0}'):
 def _latex_fn(mathobj,f):
 	xml_str = DOCXML_ROOT.format(mathobj.group(0))
 	for omath in omml.load_string(xml_str):
-		return TEXT.replace('{0}',f.format(omath.latex))
+		return TEXT.replace('{0}',f.format(escape(omath.latex)))
 	return None

@@ -28,7 +28,7 @@ class TestLoad(unittest.TestCase):
 
 	def test_load_lim(self):
 		latex_results = [
-			r'A=log_{x}y\max_{0≤x≤1}xe^{−x^{2}}\lim_{1\to \infty }a\overset{def}{=}x'
+			r'A=log_{x}y\max_{0\leqx\leq1}xe^{−x^{2}}\lim_{1\to \infty }a\overset{def}{=}x'
 		]
 		i=0
 		for omath in omml.load(PROJECT_ROOT+'/tests/lim.xml'):
@@ -45,7 +45,7 @@ class TestLoad(unittest.TestCase):
 			i=i+1
 	def test_load_d(self):
 		latex_results = [
-			r'\left\{\begin{array}{c}m+1≤2m-1\\m+1>5\end{array}\right.'
+			r'\left\{\begin{array}{c}m+1\leq2m-1\\m+1>5\end{array}\right.'
 		]
 		i=0
 		for omath in omml.load(PROJECT_ROOT+'/tests/d.xml'):
