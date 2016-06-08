@@ -24,7 +24,7 @@ setup(
 	name='dwml',
 	version=__version__,
 	license='http://www.apache.org/licenses/LICENSE-2.0',
-	description='reading DrawingML of Ms-office (2007 and above,omml,picture),And Convert them to latex',
+	description='ms-office omml to latex converter',
 	author='xilei',
 	author_email='xilei125@163.com',
 	packages=['dwml'],
