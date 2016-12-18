@@ -41,8 +41,8 @@ def escape_latex(strs):
 		last = c
 	return BLANK.join(new_chr)
 
-def get_val(key,default=None,store=CHR):	
-	if key:		
+def get_val(key,default=None,store=CHR):
+	if key is not None:
 		return key if not store else store.get(key,key)
 	else:
 		return default
@@ -194,12 +194,9 @@ class oMath2Latex(Tag2Method):
 		"""
 		c_dict = self.process_children_dict(elm)
 		pr = c_dict['dPr']
-		s_val = get_val(pr.begChr,store=T)
-		e_val = get_val(pr.endChr,store=T)
-		if not s_val and not e_val:
-			s_val = D_DEFAULT.get('left')
-			e_val = D_DEFAULT.get('right')
 		null = D_DEFAULT.get('null')
+		s_val = get_val(pr.begChr,default=D_DEFAULT.get('left'),store=T)
+		e_val = get_val(pr.endChr,default=D_DEFAULT.get('right'),store=T)
 		return pr.text+D.format(left= null if not s_val else escape_latex(s_val),
 					text=c_dict['e'],
 					right= null if not e_val else  escape_latex(e_val))

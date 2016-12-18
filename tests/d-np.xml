@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<m:oMathPara xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">  
+  <m:oMathParaPr> 
+    <m:jc m:val="left"/> 
+  </m:oMathParaPr>  
+  <m:oMath> 
+    <m:d>
+      <m:dPr>
+        <m:endChr m:val="]"/>
+        <m:ctrlPr>
+          <w:rPr>
+            <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+          </w:rPr>
+        </m:ctrlPr>
+      </m:dPr>
+      <m:e>
+        <m:eqArr>
+          <m:eqArrPr>
+            <m:ctrlPr>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+            </m:ctrlPr>
+          </m:eqArrPr>
+          <m:e>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>m+1≤2m-1</m:t>
+            </m:r>
+          </m:e>
+          <m:e>
+            <m:r>
+              <w:rPr>
+                <w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math"/>
+              </w:rPr>
+              <m:t>m+1&gt;5</m:t>
+            </m:r>
+          </m:e>
+        </m:eqArr>
+      </m:e>
+    </m:d>
+  </m:oMath>
+</m:oMathPara>

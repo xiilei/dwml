@@ -8,10 +8,10 @@ from docx import to_latex
 class TestDocx(unittest.TestCase):
 
 	def test_write(self):
-		src = PROJECT_ROOT+'/tests/simple.docx'
-		dst = PROJECT_ROOT+'/tests/simple-test.docx'
+		src = PROJECT_ROOT+'/tests/tttt.docx'
+		dst = PROJECT_ROOT+'/tests/tttt-test.docx'
 		shutil.copyfile(src=src, dst=dst)
-		to_latex(dst,repl='[latex]{0}[/latex]')
+		to_latex(dst,repl='{0}')
 
 
 if __name__ == '__main__':
