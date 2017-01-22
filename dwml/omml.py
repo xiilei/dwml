@@ -6,12 +6,6 @@ Office Math Markup Language (OMML)
 from dwml import ET,NotSupport
 from dwml.utils import PY2
 
-if PY2:
-	#Fix UnicodeEncodeError in Python2.7
-	from dwml.utils import module_to_unicode
-	from dwml import latex_dict
-	module_to_unicode(latex_dict)
-
 from dwml.latex_dict import (CHARS,CHR,CHR_BO,CHR_DEFAULT,POS,POS_DEFAULT
 	,SUB,SUP,F,F_DEFAULT,T,FUNC,D,D_DEFAULT,RAD,RAD_DEFAULT,ARR
 	,LIM_FUNC,LIM_TO,LIM_UPP,M,BRK,BLANK,BACKSLASH,ALN,FUNC_PLACE)
