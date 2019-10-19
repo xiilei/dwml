@@ -245,8 +245,8 @@ SUP = '^{{{0}}}'
 F = {
 	'bar': '\\frac{{{num}}}{{{den}}}',
 	'skw': r'^{{{num}}}/_{{{den}}}',
-	#noBar -- not support
-	#lin -- not support
+	'noBar': '\\genfrac{{}}{{}}{{0pt}}{{}}{{{num}}}{{{den}}}',
+	'lin' : '{{{num}}}/{{{den}}}',
 }
 F_DEFAULT = '\\frac{{{num}}}{{{den}}}'
 

@@ -62,7 +62,14 @@ class TestLoad(unittest.TestCase):
 	def test_escape(self):
 		self.assertEqual(omml.escape_latex(r'\\\\\\'),'\\\\\\')
 
-
+	def test_nobar(self):
+		latex_results = [
+			r'\left(x+a\right)^{n}=\sum_{k=0}^{n}\left(\genfrac{}{}{0pt}{}{n}{k}\right)x^{k}a^{n-k}'
+		]
+		i=0
+		for omath in omml.load(PROJECT_ROOT+'/tests/nobar.xml'):
+			self.assertEqual(omath.latex,latex_results[i])
+			i=i+1
 
 
 
